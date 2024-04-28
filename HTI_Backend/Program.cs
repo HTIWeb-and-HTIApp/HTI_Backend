@@ -1,3 +1,5 @@
+using HTI.Core.RepositoriesContract;
+using HTI.Repository;
 using HTI.Repository.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +14,7 @@ namespace HTI_Backend
 
             #region Cofigure Services
             // Add services to the container.
-
+            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
