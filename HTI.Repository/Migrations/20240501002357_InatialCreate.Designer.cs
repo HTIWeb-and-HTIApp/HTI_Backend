@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace HTI.Repository.Data.Migrations
+namespace HTI.Repository.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240426000140_IntialMigration")]
-    partial class IntialMigration
+    [Migration("20240501002357_InatialCreate")]
+    partial class InatialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -237,10 +237,7 @@ namespace HTI.Repository.Data.Migrations
             modelBuilder.Entity("HTI.Core.Entities.Student", b =>
                 {
                     b.Property<int>("StudentId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentId"), 1L, 1);
 
                     b.Property<int>("Credits")
                         .HasColumnType("int");

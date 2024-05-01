@@ -12,6 +12,7 @@ namespace HTI.Core.RepositoriesContract
     {
         Task<T> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync();
+
         Task<List<T>> FindByCondition(Expression<Func<T, bool>> expression = null,
                                                   Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
                                                   Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);

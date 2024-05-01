@@ -1,7 +1,11 @@
 using HTI.Core.RepositoriesContract;
 using HTI.Repository;
 using HTI.Repository.Data;
+using HTI_Backend.Errors;
+using HTI_Backend.Helper;
+using HTI_Backend.Middlewares;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HTI_Backend
@@ -15,6 +19,21 @@ namespace HTI_Backend
             #region Cofigure Services
             // Add services to the container.
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            builder.Services.AddScoped(typeof(IRegistrationRepository), typeof(RegistrationRepository));
+            builder.Services.AddAutoMapper(typeof(MappingProfiles));
+            builder.Services.Configure<ApiBehaviorOptions>(Options =>
+            {
+                Options.InvalidModelStateResponseFactory = (ActionContext) =>
+                {
+                    var errors = ActionContext.ModelState.Where(P => P.Value.Errors.Count() > 0)
+                    .SelectMany(p => p.Value.Errors).Select(E => E.ErrorMessage).ToList();
+                    var ValidationErrorResponse = new ApiValidationErrorResponse()
+                    {
+                        Errors = errors
+                    };
+                    return new BadRequestObjectResult(ValidationErrorResponse);
+                };
+            });
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -44,6 +63,7 @@ namespace HTI_Backend
 
                var _dbcontext = services.GetRequiredService<StoreContext>();
                 await _dbcontext.Database.MigrateAsync(); //update database
+                await StoreContextSeed.SeedAsync(_dbcontext);  //  call data seeding
 
             }
             catch (Exception ex)
@@ -59,10 +79,11 @@ namespace HTI_Backend
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                app.UseMiddleware<ExceptionMiddleWare>();
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseStatusCodePagesWithRedirects("/errors/{0}");
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

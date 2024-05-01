@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace HTI.Repository.Data.Migrations
+namespace HTI.Repository.Migrations
 {
-    public partial class IntialMigration : Migration
+    public partial class InatialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -91,8 +91,7 @@ namespace HTI.Repository.Data.Migrations
                 name: "Students",
                 columns: table => new
                 {
-                    StudentId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentId = table.Column<int>(type: "int", nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
