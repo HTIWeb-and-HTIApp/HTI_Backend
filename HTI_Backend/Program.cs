@@ -63,6 +63,7 @@ namespace HTI_Backend
 
                var _dbcontext = services.GetRequiredService<StoreContext>();
                 await _dbcontext.Database.MigrateAsync(); //update database
+                await StoreContextSeed.SeedAsync(_dbcontext);  //  call data seeding
 
             }
             catch (Exception ex)

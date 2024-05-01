@@ -9,7 +9,7 @@ namespace HTI.Core.Entities
 {
     public class Student
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int StudentId { get; set; }
         public int DepartmentId { get; set; }
         public string Name { get; set; }

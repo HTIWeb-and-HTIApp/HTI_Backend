@@ -32,6 +32,7 @@ namespace HTI_Backend.Controllers
             return Ok(MappeedStudent);
         }
         [HttpGet]
+        [ProducesResponseType(typeof(AllStudentReturnDTO), 200)]
         [ProducesResponseType(typeof(ApiResponse), 404)]
 
         public async Task<IActionResult> GetAllStudents()
@@ -39,7 +40,9 @@ namespace HTI_Backend.Controllers
             var students = await _studentRepo.FindByCondition(null, D => D.Include(S => S.Department));
             
             if (students is null) return NotFound(new ApiResponse(404));
-            return Ok(students);
+            var mappedStudents = _mapper.Map<IEnumerable<Student>, IEnumerable<AllStudentReturnDTO>>(students);
+
+            return Ok(mappedStudents);
         }
     }
 }
