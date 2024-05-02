@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HTI.Core.Entities
+﻿namespace HTI_Backend.DTOs
 {
-    public class Course
+    public class AllCoursesReturnDTO
     {
+
         public int CourseId { get; set; }
         public string CourseCode { get; set; }
         public string Name { get; set; }
@@ -20,11 +15,6 @@ namespace HTI.Core.Entities
         public string Type { get; set; }
         public int? PrerequisiteId { get; set; }
 
-        public int DepartmentId { get; set; }
-        public Department Department { get; set; }
-        public Course Prerequisite { get; set; }
-        public ICollection<Group> Groups { get; set; }
-        public ICollection<StudentCourseHistory> StudentCourseHistories { get; set; }
+        public string Department { get; set; }
     }
-
 }
