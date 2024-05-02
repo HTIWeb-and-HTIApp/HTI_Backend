@@ -31,6 +31,7 @@ namespace HTI_Backend.Controllers
             var MappeedStudent = _mapper.Map<Student, StudentToReturnDTO>(str);
             return Ok(MappeedStudent);
         }
+
         [HttpGet]
         [ProducesResponseType(typeof(AllStudentReturnDTO), 200)]
         [ProducesResponseType(typeof(ApiResponse), 404)]

@@ -12,6 +12,9 @@ namespace HTI_Backend.Helper
                 .ForMember(d => d.Department ,O => O.MapFrom(S => S.Department.DepartmentName));
             CreateMap<Student, AllStudentReturnDTO>()
                 .ForMember(d => d.Department, O => O.MapFrom(S => S.Department.DepartmentName));
+            CreateMap<Course, AllCoursesReturnDTO>()
+                .ForMember(d => d.Department, O => O.MapFrom(S => S.Department.DepartmentName));
+
 
         }
 
