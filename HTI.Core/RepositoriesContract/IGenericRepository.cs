@@ -17,6 +17,9 @@ namespace HTI.Core.RepositoriesContract
                                                   Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
                                                   Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);
 
+        Task AddAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task DeleteAsync(T entity);
 
     }
 }

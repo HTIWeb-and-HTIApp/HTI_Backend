@@ -13,6 +13,27 @@ namespace HTI.Repository.Data
     {
         public async static Task SeedAsync(StoreContext _dbcontext)
         {
+
+            if (_dbcontext.Departments.Count() == 0)
+            {
+                var departmentsData = File.ReadAllText("../HTI.Repository/Data/DataSeed/departments.json");
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                options.Converters.Add(new JsonStringToDateConverter());
+
+                var departments = JsonSerializer.Deserialize<List<Department>>(departmentsData, options);
+
+                if (departments?.Count > 0)
+                {
+                    foreach (var department in departments)
+                    {
+
+                        await _dbcontext.Set<Department>().AddAsync(department);
+                    }
+                    await _dbcontext.SaveChangesAsync();
+                }
+            }
+
+
             if (_dbcontext.Students.Count() == 0)
             {
                 var studentsData = File.ReadAllText("../HTI.Repository/Data/DataSeed/students.json");
@@ -41,20 +62,13 @@ namespace HTI.Repository.Data
                 options.Converters.Add(new NullableIntConverter());
                 options.Converters.Add(new BooleanConverter());
 
-
                 var courses = JsonSerializer.Deserialize<List<Course>>(coursesData, options);
-
-
-
-
-
 
 
                 if (courses?.Count > 0)
                 {
-                    var sortedCourses = courses.OrderBy(c => c.PrerequisiteId).ToList();
 
-                    foreach (var course in sortedCourses)
+                    foreach (var course in courses)
                     {
                         if (course.PrerequisiteId == 0 || string.IsNullOrEmpty(course.PrerequisiteId.ToString())) // or some other default value
                         {
@@ -67,6 +81,111 @@ namespace HTI.Repository.Data
                 }
 
             }
+
+            if (_dbcontext.Doctors.Count() == 0)
+            {
+                var doctorsData = File.ReadAllText("../HTI.Repository/Data/DataSeed/doctors.json");
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                options.Converters.Add(new JsonStringToDateConverter());
+
+                var doctors = JsonSerializer.Deserialize<List<Doctor>>(doctorsData, options);
+
+                if (doctors?.Count > 0)
+                {
+                    foreach (var doctor in doctors)
+                    {
+
+                        await _dbcontext.Set<Doctor>().AddAsync(doctor);
+                    }
+                    await _dbcontext.SaveChangesAsync();
+                }
+            }
+
+            if (_dbcontext.TeachingAssistants.Count() == 0)
+            {
+                var t_AData = File.ReadAllText("../HTI.Repository/Data/DataSeed/TA.json");
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                options.Converters.Add(new JsonStringToDateConverter());
+
+                var t_a = JsonSerializer.Deserialize<List<TeachingAssistant>>(t_AData, options);
+
+                if (t_a?.Count > 0)
+                {
+                    foreach (var doctor in t_a)
+                    {
+
+                        await _dbcontext.Set<TeachingAssistant>().AddAsync(doctor);
+                    }
+                    await _dbcontext.SaveChangesAsync();
+                }
+            }
+
+            if (_dbcontext.Groups.Count() == 0)
+            {
+                var groupssData = File.ReadAllText("../HTI.Repository/Data/DataSeed/groups.json");
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                options.Converters.Add(new JsonStringToDateConverter());
+                options.Converters.Add(new NullableIntConverter());
+                options.Converters.Add(new BooleanConverter());
+
+                var groups = JsonSerializer.Deserialize<List<Core.Entities.Group>>(groupssData, options);
+
+                if (groups?.Count > 0)
+                {
+                    foreach (var group in groups)
+                    {
+
+                        await _dbcontext.Set<Core.Entities.Group>().AddAsync(group);
+                    }
+                    await _dbcontext.SaveChangesAsync();
+                }
+            }
+
+            if (_dbcontext.Registrations.Count() == 0)
+            {
+                var registrationsData = File.ReadAllText("../HTI.Repository/Data/DataSeed/registrations.json");
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                options.Converters.Add(new JsonStringToDateConverter());
+                options.Converters.Add(new NullableIntConverter());
+                options.Converters.Add(new BooleanConverter());
+
+                var registrations = JsonSerializer.Deserialize<List<Registration>>(registrationsData, options);
+
+                if (registrations?.Count > 0)
+                {
+                    foreach (var registration in registrations)
+                    {
+
+                        await _dbcontext.Set<Registration>().AddAsync(registration);
+                    }
+                    await _dbcontext.SaveChangesAsync();
+                }
+            }
+
+            if (_dbcontext.StudentCourseHistories.Count() == 0)
+            {
+                var StudentCourseHistoriesData = File.ReadAllText("../HTI.Repository/Data/DataSeed/student_course_histories.json");
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                options.Converters.Add(new JsonStringToDateConverter());
+                options.Converters.Add(new NullableIntConverter());
+                options.Converters.Add(new BooleanConverter());
+
+                var studentCourseHistories = JsonSerializer.Deserialize<List<StudentCourseHistory>>(StudentCourseHistoriesData, options);
+
+                if (studentCourseHistories?.Count > 0)
+                {
+                    foreach (var studentCourseHistory in studentCourseHistories)
+                    {
+
+                        await _dbcontext.Set<StudentCourseHistory>().AddAsync(studentCourseHistory);
+                    }
+                    await _dbcontext.SaveChangesAsync();
+                }
+            }
+
+
+
+
         }
     }
 

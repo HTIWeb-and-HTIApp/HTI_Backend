@@ -16,6 +16,20 @@ namespace HTI_Backend.Helper
                 .ForMember(d => d.Department, O => O.MapFrom(S => S.Department.DepartmentName));
 
 
+            // ana (ahmed) 3malt dooooool
+            CreateMap<Group, GroupReturnDTO>();
+
+            CreateMap<GroupCreateDTO, Group>();
+
+            CreateMap<Group, GroupUpdateDTO>();
+            CreateMap<GroupUpdateDTO, Group>();
+
+
+
+            CreateMap<Registration, StudentCoursesRetuenDTOs>();
+
+
+
         }
 
     }
