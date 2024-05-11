@@ -9,19 +9,23 @@ using Microsoft.EntityFrameworkCore;
 using System.Numerics;
 using System.Text.RegularExpressions;
 using HTI.Core.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.Data;
 
 namespace HTI.Repository.Data
 {
-    public class StoreContext:DbContext 
+    public class StoreContext:IdentityDbContext
     {
         public StoreContext(DbContextOptions<StoreContext> options)
             : base(options)
         {
 
         }// allow (DI) by on options
-
+        //Email >> password >>> 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Student>()
           .HasOne<Department>(s => s.Department)
           .WithMany(d => d.Students)
@@ -81,6 +85,24 @@ namespace HTI.Repository.Data
                 .WithMany(g => g.Attendances)
                 .HasForeignKey(a => a.GroupId)
                 .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<TrainingRegistration>()
+            .Property(p => p.Id)
+            .ValueGeneratedOnAdd();
+            modelBuilder.Entity<Team>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.Property(e => e.HasTeam).IsRequired();
+                entity.Property(e => e.NumberOfStudents).IsRequired(false);
+            });
+            modelBuilder.Entity<TeamMember>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.Property(e => e.Name).IsRequired();
+                entity.Property(e => e.Role).IsRequired();
+                entity.Property(e => e.Semester).IsRequired();
+            });
         }
         public DbSet<Student> Students { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
@@ -92,6 +114,10 @@ namespace HTI.Repository.Data
         public DbSet<Registration> Registrations { get; set; }
         public DbSet<StudentCourseHistory> StudentCourseHistories { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
+
+        public DbSet<TrainingRegistration> TrainingRegistrations { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<TeamMember> TeamMembers { get; set; }
 
     }
 }

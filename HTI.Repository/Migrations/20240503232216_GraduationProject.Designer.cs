@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HTI.Repository.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240501223828_init")]
-    partial class init
+    [Migration("20240503232216_GraduationProject")]
+    partial class GraduationProject
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -372,6 +372,76 @@ namespace HTI.Repository.Migrations
                     b.ToTable("TeachingAssistants");
                 });
 
+            modelBuilder.Entity("HTI.Core.Entities.Team", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("HasTeam")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("NumberOfStudents")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Teams");
+                });
+
+            modelBuilder.Entity("HTI.Core.Entities.TeamMember", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Semester")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("TeamMembers");
+                });
+
+            modelBuilder.Entity("HTI.Core.Entities.TrainingRegistration", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("track")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TrainingRegistrations");
+                });
+
             modelBuilder.Entity("HTI.Core.Entities.Attendance", b =>
                 {
                     b.HasOne("HTI.Core.Entities.Group", "Group")
@@ -508,6 +578,15 @@ namespace HTI.Repository.Migrations
                     b.Navigation("TeachingAssistant");
                 });
 
+            modelBuilder.Entity("HTI.Core.Entities.TeamMember", b =>
+                {
+                    b.HasOne("HTI.Core.Entities.Team", null)
+                        .WithMany("TeamMembers")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("HTI.Core.Entities.Course", b =>
                 {
                     b.Navigation("Groups");
@@ -552,6 +631,11 @@ namespace HTI.Repository.Migrations
                     b.Navigation("Groups");
 
                     b.Navigation("StudentCourseHistories");
+                });
+
+            modelBuilder.Entity("HTI.Core.Entities.Team", b =>
+                {
+                    b.Navigation("TeamMembers");
                 });
 #pragma warning restore 612, 618
         }

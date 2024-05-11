@@ -70,5 +70,7 @@ namespace HTI.Repository
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
+
+        
     }
 }
