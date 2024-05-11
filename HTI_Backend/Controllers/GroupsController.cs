@@ -23,7 +23,7 @@ namespace HTI_Backend.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(GroupReturnDTO), 201)]
         [ProducesResponseType(typeof(ApiResponse), 400)]
-        public async Task<IActionResult> CreateGroup([FromBody] GroupCreateDTO groupCreateDTO)
+        public async Task<IActionResult> CreateGroup([FromQuery] GroupCreateDTO groupCreateDTO)
         {
             if (!ModelState.IsValid) return BadRequest(new ApiResponse(400));
 

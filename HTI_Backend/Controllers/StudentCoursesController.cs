@@ -24,13 +24,14 @@ namespace HTI_Backend.Controllers
 
 
 
+
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(StudentCoursesRetuenDTOs), 200)]
         [ProducesResponseType(typeof(ApiResponse), 404)]
         public async Task<IActionResult> GetReg(int id)
         {
             if (!ModelState.IsValid) return BadRequest(new ApiResponse(400));
-            var regs = await _regRepo.FindByCondition(g => g.StudentId == id, D => D.Include(S => S.Group).ThenInclude(T => T.Course));
+            var regs = await _regRepo.FindByCondition(g => g.StudentId == id  , D => D.Include(S => S.Group).ThenInclude(T => T.Course));
             if (regs.Count == 0) return NotFound(new ApiResponse(404));
             var mappedRegs = _mapper.Map<IEnumerable<Registration>, IEnumerable<StudentCoursesRetuenDTOs>>(regs);
 
@@ -48,6 +49,7 @@ namespace HTI_Backend.Controllers
 
             return Ok(mappedRegs);
         }
+
 
     }
 }
