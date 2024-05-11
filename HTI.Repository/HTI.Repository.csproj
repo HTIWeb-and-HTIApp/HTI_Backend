@@ -7,14 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Config\**" />
+    <EmbeddedResource Remove="Data\Config\**" />
+    <None Remove="Data\Config\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HTI.Core\HTI.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Config\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.29" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.29" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.29" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.29" />

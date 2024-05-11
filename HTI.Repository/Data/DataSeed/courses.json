@@ -1,18 +1,19 @@
 [
+    {
+        "CourseCode": "BSC 110",
+        "Name": "Mathematics (1)",
+        "Credits": 3,
+        "Description": "This course provides an introduction to mathematical concepts and techniques, including algebra, geometry, and trigonometry. Students will develop problem-solving skills and learn to apply mathematical models to real-world problems.",
+        "Links": "https://csacu.simple.ink/",
+        "StudyYear": 1,
+        "Semester": 1,
+        "PrerequisiteId": "",
+        "Lap": 0,
+        "Type": "Basic",
+        "DepartmentId": 1
+    },
   {
-    "CourseCode": "BSC 110",
-    "Name": "Mathematics (1)",
-    "Credits": 3,
-    "Description": "This course provides an introduction to mathematical concepts and techniques, including algebra, geometry, and trigonometry. Students will develop problem-solving skills and learn to apply mathematical models to real-world problems.",
-    "Links": "https://csacu.simple.ink/",
-    "StudyYear": 1,
-    "Semester": 1,
-    "PrerequisiteId": "",
-    "Lap": 0,
-    "Type": "Basic",
-    "DepartmentId": 1
-  },
-  {
+
     "CourseCode": "BSC 112",
     "Name": "Introduction to Computer Graph",
     "Credits": 2,

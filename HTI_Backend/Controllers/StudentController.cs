@@ -3,6 +3,7 @@ using HTI.Core.Entities;
 using HTI.Core.RepositoriesContract;
 using HTI_Backend.DTOs;
 using HTI_Backend.Errors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,7 @@ namespace HTI_Backend.Controllers
             _studentRepo = StudentRepo;
             _mapper = mapper;
         }
-       
+        
         [HttpGet("{Id}")]
         [ProducesResponseType(typeof(StudentToReturnDTO),200)]
         [ProducesResponseType(typeof(ApiResponse), 404)]
@@ -31,11 +32,11 @@ namespace HTI_Backend.Controllers
             var MappeedStudent = _mapper.Map<Student, StudentToReturnDTO>(str);
             return Ok(MappeedStudent);
         }
-
+        
+        [Authorize(Roles ="Students")]
         [HttpGet]
         [ProducesResponseType(typeof(AllStudentReturnDTO), 200)]
         [ProducesResponseType(typeof(ApiResponse), 404)]
-
         public async Task<IActionResult> GetAllStudents()
         {
             var students = await _studentRepo.FindByCondition(null, D => D.Include(S => S.Department));

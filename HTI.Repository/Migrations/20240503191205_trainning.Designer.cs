@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HTI.Repository.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240501002357_InatialCreate")]
-    partial class InatialCreate
+    [Migration("20240503191205_trainning")]
+    partial class trainning
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -75,12 +75,15 @@ namespace HTI.Repository.Migrations
                     b.Property<int>("Credits")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DepartmentId")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Lap")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Links")
                         .IsRequired()
@@ -98,6 +101,10 @@ namespace HTI.Repository.Migrations
 
                     b.Property<int>("StudyYear")
                         .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CourseId");
 
@@ -365,6 +372,28 @@ namespace HTI.Repository.Migrations
                     b.ToTable("TeachingAssistants");
                 });
 
+            modelBuilder.Entity("HTI.Core.Entities.TrainingRegistration", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("track")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TrainingRegistrations");
+                });
+
             modelBuilder.Entity("HTI.Core.Entities.Attendance", b =>
                 {
                     b.HasOne("HTI.Core.Entities.Group", "Group")
@@ -386,13 +415,17 @@ namespace HTI.Repository.Migrations
 
             modelBuilder.Entity("HTI.Core.Entities.Course", b =>
                 {
-                    b.HasOne("HTI.Core.Entities.Department", null)
+                    b.HasOne("HTI.Core.Entities.Department", "Department")
                         .WithMany("Courses")
-                        .HasForeignKey("DepartmentId");
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("HTI.Core.Entities.Course", "Prerequisite")
                         .WithMany()
                         .HasForeignKey("PrerequisiteId");
+
+                    b.Navigation("Department");
 
                     b.Navigation("Prerequisite");
                 });

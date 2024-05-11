@@ -1,12 +1,17 @@
+using System.Text;
+using HTI.Core;
 using HTI.Core.RepositoriesContract;
 using HTI.Repository;
 using HTI.Repository.Data;
+using HTI.Service;
 using HTI_Backend.Errors;
 using HTI_Backend.Helper;
 using HTI_Backend.Middlewares;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace HTI_Backend
 {
@@ -20,6 +25,13 @@ namespace HTI_Backend
             // Add services to the container.
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddScoped(typeof(IRegistrationRepository), typeof(RegistrationRepository));
+            builder.Services.AddScoped(typeof(ItrainningResiteration), typeof(trainningResiteration));
+            builder.Services.AddScoped(typeof(IGraduationRepository), typeof(GraduationRepository));
+            builder.Services.AddScoped(typeof(IGraduationRepository), typeof(GraduationRepository));
+            builder.Services.AddScoped(typeof(IAuthService), typeof(AuthService));
+
+            //builder.Services.AddScoped(typeof(IdentityUser<string>), typeof(identityUser));
+
             builder.Services.AddAutoMapper(typeof(MappingProfiles));
             builder.Services.Configure<ApiBehaviorOptions>(Options =>
             {
@@ -34,16 +46,42 @@ namespace HTI_Backend
                     return new BadRequestObjectResult(ValidationErrorResponse);
                 };
             });
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(); 
+            builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<StoreContext>(Options =>
             {
                 Options.UseSqlServer(builder.Configuration.GetConnectionString("DefualtConnection"));
             });
+
+
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<StoreContext>();
+            builder.Services.AddAuthentication(Options =>
+            {
+                Options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; // wallahy ma faker
+                Options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+               .AddJwtBearer(Options =>
+               {
+                   Options.TokenValidationParameters = new TokenValidationParameters()
+                   {
+                       ValidateAudience = true,
+                       ValidAudience = builder.Configuration["JWT:ValidAudience"],
+                       ValidateIssuer = true,
+                       ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+                       ValidateIssuerSigningKey = true,
+                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SecretKey"])),
+                       ValidateLifetime = true,
+                       ClockSkew = TimeSpan.FromDays(double.Parse(builder.Configuration["JWT:DurationInDays"]))
+                   };
+               });
+
+
             #endregion
+
 
             var app = builder.Build();
 
@@ -59,11 +97,13 @@ namespace HTI_Backend
 
             try
             {
-               // ask clr for create an objext from dbcontext exiplictly
+                // ask clr for create an objext from dbcontext exiplictly
 
-               var _dbcontext = services.GetRequiredService<StoreContext>();
+                var _dbcontext = services.GetRequiredService<StoreContext>();
                 await _dbcontext.Database.MigrateAsync(); //update database
-                await StoreContextSeed.SeedAsync(_dbcontext);  //  call data seeding
+                //await StoreContextSeed.SeedAsync (_dbcontext);  //  call data seeding
+                var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+                await StoreContextSeed.SeedAsync(_dbcontext, userManager);
 
             }
             catch (Exception ex)
@@ -83,14 +123,13 @@ namespace HTI_Backend
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+             
             app.UseStatusCodePagesWithRedirects("/errors/{0}");
             app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
-
+            app.UseCors(); // 
             app.MapControllers();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             #endregion
             app.Run();
         }

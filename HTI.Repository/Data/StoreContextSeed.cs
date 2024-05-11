@@ -6,15 +6,18 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using HTI.Core.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace HTI.Repository.Data
 {
     public static class StoreContextSeed
     {
-        public async static Task SeedAsync(StoreContext _dbcontext)
+        public async static Task SeedAsync(StoreContext _dbcontext, UserManager<IdentityUser> userManager)/* , IdentityUser<string> identityUser)*/
         {
             if (_dbcontext.Students.Count() == 0)
             {
+                
                 var studentsData = File.ReadAllText("../HTI.Repository/Data/DataSeed/students.json");
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
                 options.Converters.Add(new JsonStringToDateConverter());
@@ -25,6 +28,7 @@ namespace HTI.Repository.Data
                 {
                     foreach (var student in students)
                     {
+
 
                         await _dbcontext.Set<Student>().AddAsync(student);
                     }
@@ -43,13 +47,6 @@ namespace HTI.Repository.Data
 
 
                 var courses = JsonSerializer.Deserialize<List<Course>>(coursesData, options);
-
-
-
-
-
-
-
                 if (courses?.Count > 0)
                 {
                     var sortedCourses = courses.OrderBy(c => c.PrerequisiteId).ToList();
@@ -67,7 +64,77 @@ namespace HTI.Repository.Data
                 }
 
             }
+            //if (_dbcontext.Users.Count() == 0)
+            //{
+
+            //    var userData = File.ReadAllText("../HTI.Repository/Data/DataSeed/roles_data.json");
+            //    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            //    // Add any necessary converters for deserialization
+            //    var users = JsonSerializer.Deserialize<List<IdentityUser>>(userData, options);
+            //    if (users?.Count > 0)
+            //    {
+            //        foreach (var user in users)
+            //        {
+            //            var email = user.Email;
+            //            // Extract the username from the email address
+            //            var username = user.Email.Split('@');
+
+            //            var phoneNumber = user.PhoneNumber;
+
+            //            var password = user.PasswordHash;
+
+            //            // Create a new user entity with the extracted username
+            //            var newUser = new IdentityUser { Email=email, UserName = username.ToString(),PhoneNumber = phoneNumber,
+            //                PasswordHash =password /* other properties */ };
+
+            //            await _dbcontext.Set<IdentityUser>().AddAsync(newUser);
+            //        }
+            //        await _dbcontext.SaveChangesAsync();
+            //    }
+            //}
+
+
+            if (_dbcontext.Users.Count() == 0)
+            {
+                var userData = File.ReadAllText("../HTI.Repository/Data/DataSeed/roles_data.json");
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var users = JsonSerializer.Deserialize<List<UserSeedData>>(userData, options);
+
+                if (users?.Count > 0)
+                {
+                    foreach (var user in users)
+                    {
+                        var email = user.Email;
+                        var username = email.Split('@')[0];
+                        var phoneNumber = user.PhoneNumber;
+                        var password = user.Password;
+                        var role = user.Role;
+
+                        var newUser = new IdentityUser { Email = email, UserName = username, PhoneNumber = phoneNumber };
+
+                        var passwordHasher = new PasswordHasher<IdentityUser>();
+                        var hashedPassword = passwordHasher.HashPassword(newUser, password);
+                        newUser.PasswordHash = hashedPassword;
+
+                        await userManager.CreateAsync(newUser);
+                        await userManager.AddToRoleAsync(newUser, role);
+                    }
+                    await _dbcontext.SaveChangesAsync();
+                }
+            }
         }
+
+        public class UserSeedData
+        {
+            public string Email { get; set; }
+            public string PhoneNumber { get; set; }
+            public string Password { get; set; }
+            public string Role { get; set; }
+        }
+
+
+
+    }
     }
 
     public class JsonStringToDateConverter : JsonConverter<DateTime>
@@ -143,4 +210,4 @@ namespace HTI.Repository.Data
             }
         }
     }
-}
+

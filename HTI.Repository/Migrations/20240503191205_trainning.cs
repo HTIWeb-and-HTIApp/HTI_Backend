@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HTI.Repository.Migrations
 {
-    public partial class init : Migration
+    public partial class trainning : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,6 +54,21 @@ namespace HTI.Repository.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TeachingAssistants", x => x.TeachingAssistantId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TrainingRegistrations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    track = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TrainingRegistrations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -342,6 +357,9 @@ namespace HTI.Repository.Migrations
 
             migrationBuilder.DropTable(
                 name: "StudentCourseHistories");
+
+            migrationBuilder.DropTable(
+                name: "TrainingRegistrations");
 
             migrationBuilder.DropTable(
                 name: "Groups");
