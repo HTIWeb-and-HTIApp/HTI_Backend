@@ -26,6 +26,7 @@ namespace HTI_Backend.DTOs
         public bool Lap { get; set; }
         public string Type { get; set; }
         public int? PrerequisiteId { get; set; }
+        public int DepartmentId { get; set; }
 
         public DateTime RegistrationDate { get; set; }
         public bool IsOpen { get; set; }
