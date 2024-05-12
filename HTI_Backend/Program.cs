@@ -1,4 +1,5 @@
 using System.Text;
+using Announcement;
 using HTI.Core;
 using HTI.Core.RepositoriesContract;
 using HTI.Repository;
@@ -79,6 +80,18 @@ namespace HTI_Backend
                    };
                });
 
+            builder.Services.AddSignalR();
+            builder.Services.AddSingleton<NotificationHub>();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200")
+                               .AllowAnyHeader()
+                               .AllowAnyMethod().AllowCredentials();
+                    });
+            });
 
             #endregion
 
@@ -117,19 +130,21 @@ namespace HTI_Backend
 
             #region Configure Kestral Middleres
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseMiddleware<ExceptionMiddleWare>();
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-             
-            app.UseStatusCodePagesWithRedirects("/errors/{0}");
-            app.UseHttpsRedirection();
-            app.UseCors(); // 
-            app.MapControllers();
+           
+            app.UseRouting();
+            app.UseCors("AllowSpecificOrigin"); // Apply the CORS policy
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseHttpsRedirection();
+            app.UseStatusCodePagesWithRedirects("/errors/{0}");
+            app.UseMiddleware<ExceptionMiddleWare>();
+            app.UseSwagger();
+            app.UseSwaggerUI();
+            app.MapControllers();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<NotificationHub>("/notificationhub");
+            });
             #endregion
             app.Run();
         }

@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Announcement\Announcement.csproj" />
     <ProjectReference Include="..\HTI.Repository\HTI.Repository.csproj" />
     <ProjectReference Include="..\HTI.Service\HTI.Service.csproj" />
   </ItemGroup>
