@@ -43,7 +43,7 @@ namespace HTI_Backend.Controllers
         public async Task<IActionResult> GetReqInThisTerm(int id)
         {
             if (!ModelState.IsValid) return BadRequest(new ApiResponse(400));
-            var regs = await _regRepo.FindByCondition(g => g.StudentId == id && g.IsOpen == true, D => D.Include(S => S.Group).ThenInclude(T => T.Course));
+            var regs = await _regRepo.FindByCondition(g => g.StudentId == id && g.IsOpen == true, D => D.Include(S => S.Group).ThenInclude(T => T.Course).Include(R => R.Group.Doctor));
             if (regs.Count == 0) return NotFound(new ApiResponse(404));
             var mappedRegs = _mapper.Map<IEnumerable<Registration>, IEnumerable<StudentCoursesRetuenDTOs>>(regs);
 

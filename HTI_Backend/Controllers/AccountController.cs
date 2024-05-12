@@ -152,17 +152,17 @@ namespace HTI_Backend.Controllers
 
 
         #region AddRole
-        //[HttpPost("AddRole")]
-        //public async Task<ActionResult> CreateRole(string name)
-        //{
-        //    var roleExist = await _roleManager.RoleExistsAsync(name);
-        //    if (roleExist) return BadRequest(new ApiResponse(400, "Role already exit"));
+        [HttpPost("AddRole")]
+        public async Task<ActionResult> CreateRole(string name)
+        {
+            var roleExist = await _roleManager.RoleExistsAsync(name);
+            if (roleExist) return BadRequest(new ApiResponse(400, "Role already exit"));
 
 
-        //    var rolseResult = await _roleManager.CreateAsync(new IdentityRole(name));
-        //    return Ok(new ApiResponse(200, "Role added successfully"));
+            var rolseResult = await _roleManager.CreateAsync(new IdentityRole(name));
+            return Ok(new ApiResponse(200, "Role added successfully"));
 
-        //} 
+        }
         #endregion
 
     }

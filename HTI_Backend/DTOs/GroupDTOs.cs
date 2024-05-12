@@ -25,6 +25,8 @@
         public DateTime LectureDate { get; set; }
         public DateTime SectionDate { get; set; }
         public int MaxStudentNumber { get; set; }
+        public bool IsOpen { get; set; }
+
     }
 
     public class GroupUpdateDTO

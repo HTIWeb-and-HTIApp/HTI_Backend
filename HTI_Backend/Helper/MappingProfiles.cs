@@ -53,7 +53,12 @@ namespace HTI_Backend.Helper
                                 .ForMember(d => d.Lap, O => O.MapFrom(S => S.Group.Course.Lap))
                                 .ForMember(d => d.Type, O => O.MapFrom(S => S.Group.Course.Type))
                                 .ForMember(d => d.PrerequisiteId, O => O.MapFrom(S => S.Group.Course.PrerequisiteId))
-                                .ForMember(d => d.DepartmentId, O => O.MapFrom(S => S.Group.Course.DepartmentId));
+                                .ForMember(d => d.DepartmentId, O => O.MapFrom(S => S.Group.Course.DepartmentId))
+                                .ForMember(d => d.DoctorId , O => O.MapFrom(S => S.Group.DoctorId))
+                                .ForMember(d => d.DoctorName, O => O.MapFrom(S => S.Group.Doctor.Name))
+
+
+                                ;
 
 
 

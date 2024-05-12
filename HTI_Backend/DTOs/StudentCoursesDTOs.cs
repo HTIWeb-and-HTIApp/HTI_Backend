@@ -31,5 +31,11 @@ namespace HTI_Backend.DTOs
         public DateTime RegistrationDate { get; set; }
         public bool IsOpen { get; set; }
 
+        public int DoctorId { get; set; }
+
+
+        public string  DoctorName { get; set; }
+
+
     }
 }

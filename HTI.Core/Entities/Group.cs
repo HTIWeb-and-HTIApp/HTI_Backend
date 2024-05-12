@@ -18,7 +18,7 @@ namespace HTI.Core.Entities
         public DateTime LectureDate { get; set; }
         public DateTime SectionDate { get; set; }
         public int MaxStudentNumber { get; set; }
-        public bool IsOpen { get; set; }
+        public bool IsOpen { get; set; }=false;
         public Course Course { get; set; }
         public Doctor Doctor { get; set; }
         public TeachingAssistant TeachingAssistant { get; set; }

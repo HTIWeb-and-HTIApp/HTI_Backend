@@ -179,6 +179,9 @@ namespace HTI.Repository.Migrations
                     b.Property<int>("GroupNumber")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsOpen")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("LectureDate")
                         .HasColumnType("datetime2");
 
@@ -294,9 +297,6 @@ namespace HTI.Repository.Migrations
 
                     b.Property<int>("DoctorId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("EnrollmentDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<float>("FinalGrades")
                         .HasColumnType("real");
