@@ -60,15 +60,32 @@ namespace HTI_Backend.Helper
                                 ;
 
 
-            CreateMap<Registration, GroupStudentsReturnDTO>()
-            .ForMember(d => d.CourseCode, o => o.MapFrom(s => s.Group.Course.CourseCode))
-            .ForMember(d => d.CourseName, o => o.MapFrom(s => s.Group.Course.Name))
-            .ForMember(d => d.CourseId, o => o.MapFrom(s => s.Group.Course.CourseId))
-            .ForMember(d => d.GroupId, o => o.MapFrom(s => s.GroupId))
-            .ForMember(d => d.DoctorName, o => o.MapFrom(s => s.Group.Doctor.Name))
-            .ForMember(d => d.TeachingAssistantName, o => o.MapFrom(s => s.Group.TeachingAssistant.Name))
-            .ForMember(d => d.StudentName, o => o.MapFrom(s => s.Student.Name))
-            .ForMember(d => d.StudentId, o => o.MapFrom(s => s.Student.StudentId));
+            CreateMap<Group, GroupStudentsReturnDTO>()
+                        .ForMember(d => d.CourseCode, o => o.MapFrom(s => s.Course.CourseCode))
+                        .ForMember(d => d.CourseName, o => o.MapFrom(s => s.Course.Name))
+                        .ForMember(d => d.CourseId, o => o.MapFrom(s => s.Course.CourseId))
+                        .ForMember(d => d.GroupId, o => o.MapFrom(s => s.GroupId))
+                        .ForMember(d => d.DoctorName, o => o.MapFrom(s => s.Doctor.Name))
+                        .ForMember(d => d.TeachingAssistantName, o => o.MapFrom(s => s.TeachingAssistant.Name))
+                    ;
+
+
+
+
+
+
+
+            CreateMap<StudentCourseHistory, StudentsLastTermCoursesDTOs>()
+            .ForMember(d => d.CourseCode, o => o.MapFrom(s => s.Course.CourseCode))
+            .ForMember(d => d.CourseName, o => o.MapFrom(s => s.Course.Name))
+            .ForMember(d => d.StudentCount, o => o.MapFrom(s => s.Course.StudentCourseHistories.Count()));   
+
+
+
+            CreateMap<Student, student>()
+             .ForMember(d => d.StudentId, o => o.MapFrom(s => s.StudentId))
+             .ForMember(d => d.StudentName, o => o.MapFrom(s => s.Name));
+
 
 
 

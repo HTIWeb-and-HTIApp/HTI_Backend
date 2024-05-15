@@ -1,5 +1,6 @@
 using System.Text;
 using Announcement;
+using Azure.Storage.Blobs;
 using HTI.Core;
 using HTI.Core.RepositoriesContract;
 using HTI.Repository;
@@ -57,7 +58,14 @@ namespace HTI_Backend
             {
                 Options.UseSqlServer(builder.Configuration.GetConnectionString("DefualtConnection"));
             });
-
+            builder.Services.AddScoped(_ =>
+                new BlobServiceClient(builder.Configuration.GetConnectionString("AzureStorage")));
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+            });
+            var connectionString = builder.Configuration.GetConnectionString("AzureStorage");
+            Console.WriteLine($"Azure Storage Connection String: {connectionString}");
 
             builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<StoreContext>();
             builder.Services.AddAuthentication(Options =>
@@ -92,6 +100,12 @@ namespace HTI_Backend
                                .AllowAnyMethod().AllowCredentials();
                     });
             });
+
+
+
+
+
+
 
             #endregion
 

@@ -15,44 +15,31 @@ namespace HTI_Backend.Controllers
     public class GroupStudentsController : ApiBaseController
     {
 
-        private readonly IGenericRepository<Registration> _groupRepo;
+        private readonly IGenericRepository<Group> _groupsRepo;
         private readonly IMapper _mapper;
 
-        public GroupStudentsController(IGenericRepository<Registration> groupRepo, IMapper mapper)
+        public GroupStudentsController(IMapper mapper, IGenericRepository<Group> groupsRepo)
         {
-            _groupRepo = groupRepo;
+
             _mapper = mapper;
+            _groupsRepo = groupsRepo;
         }
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(IEnumerable<GroupStudentsReturnDTO>), 200)]
         [ProducesResponseType(typeof(ApiResponse), 404)]
         public async Task<IActionResult> GetAllStudentReqInGroups(int id)
         {
-            var GroupStudents = await _groupRepo.FindByCondition( S => S.GroupId == id, S => S.Include(S => S.Group).ThenInclude(S => S.Course).Include(S => S.Group).ThenInclude(S => S.Doctor).Include(S => S.Group).ThenInclude(S => S.TeachingAssistant).Include(S=> S.Student), S => S.OrderBy(S => S.GroupId));
-            if (GroupStudents.Count == 0) return NotFound(new ApiResponse(404));
-
-            var ReturnGroupStudents = _mapper.Map<IEnumerable<Registration>, IEnumerable<GroupStudentsReturnDTO>>(GroupStudents);
-            var groupedStudents = ReturnGroupStudents.GroupBy(dto => dto.GroupId);
-
-            var response = groupedStudents.Select(group => new
+            var group = _groupsRepo.FindByCondition(w => w.GroupId == id, g => g.Include(g => g.Course).Include(w => w.Registrations).ThenInclude(w => w.Student).Include(w => w.Doctor).Include(w => w.TeachingAssistant)).Result.FirstOrDefault();
+            if (group == null)
             {
-                GroupId = group.Key,
-                CourseId = group.First().CourseId,
-                CourseCode = group.First().CourseCode,
-                CourseName = group.First().CourseName,
-                DoctorName = group.First().DoctorName,
-                TeachingAssistantName = group.First().TeachingAssistantName,
-                Students = group.Select(dto => new
-                {
-                    StudentId = dto.StudentId,
-                    StudentName = dto.StudentName
-                })
-            });
+                return NotFound(new ApiResponse(404));
+            };
+            var groupdto = _mapper.Map<GroupStudentsReturnDTO>(group);
 
-            return Ok(ReturnGroupStudents);
+            groupdto.Studs = _mapper.Map<List<student>>(group.Registrations.Select(e => e.Student).ToList());
+            return Ok(groupdto);
 
-            //return Ok(ReturnGroupStudents);
         }
     }
-    
+
 }

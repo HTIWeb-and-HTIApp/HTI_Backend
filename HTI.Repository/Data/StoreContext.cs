@@ -103,6 +103,10 @@ namespace HTI.Repository.Data
                 entity.Property(e => e.Role).IsRequired();
                 entity.Property(e => e.Semester).IsRequired();
             });
+
+            modelBuilder.Entity<NewsItem>()
+            .HasMany(ni => ni.Files)
+            .WithOne(nif => nif.NewsItem);
         }
         public DbSet<Student> Students { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
@@ -118,6 +122,9 @@ namespace HTI.Repository.Data
         public DbSet<TrainingRegistration> TrainingRegistrations { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamMember> TeamMembers { get; set; }
+
+        public DbSet<NewsItem> NewsItems { get; set; }
+        public DbSet<NewsItemFile> NewsItemFiles { get; set; }
 
     }
 }
