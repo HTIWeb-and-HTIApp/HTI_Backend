@@ -11,6 +11,7 @@ namespace HTI.Core.Entities
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public string CoverPhotoUrl { get; set; } // URL for the cover photo
 
         public List<NewsItemFile>? Files { get; set; } = new();
     }

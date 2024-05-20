@@ -24,4 +24,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.29" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Data\Photo\news_phoro.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

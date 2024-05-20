@@ -6,7 +6,16 @@ using HTI_Backend.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Azure.Storage.Blobs.Models;
-
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Azure.Storage.Sas;
 
 public class NewsController : ApiBaseController
 {
@@ -25,25 +34,24 @@ public class NewsController : ApiBaseController
     {
         // ... (Validation and error handling)
 
-        var newsItem = new NewsItem { Title = model.Title, Description = model.Description };
+        var newsItem = new NewsItem
+        {
+            Title = model.Title,
+            Description = model.Description,
+            CoverPhotoUrl = model.CoverPhoto != null ? await UploadCoverPhotoAsync(model.CoverPhoto) : await UploadDefaultCoverPhotoAsync()
+        };
+
         if (model.Files != null && model.Files.Count > 0)
         {
             foreach (var file in model.Files)
             {
-                var blobName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-                var blobClient = _blobServiceClient.GetBlobContainerClient("news").GetBlobClient(blobName);
-
-                // Use your pre-generated SAS URL
-                var sasUrl = "https://htinews.blob.core.windows.net/news?sv=2023-01-03&si=news-18F742B79C2&sr=c&sig=O5%2FKBdBjqLVaCs9hrMQSA2WOGQzWH8ZTSX4aLfuMtBE%3D";
-
-                await blobClient.UploadAsync(file.OpenReadStream(), new BlobHttpHeaders { ContentType = file.ContentType });
-
+                var fileUrl = await UploadBlobAsync(file, "news");
                 newsItem.Files.Add(new NewsItemFile
                 {
                     OriginalFileName = file.FileName,
-                    BlobName = blobName,
+                    BlobName = Path.GetFileName(fileUrl),  // Extract blob name from URL
                     ContentType = file.ContentType,
-                    SasUrl = sasUrl // Store the complete SAS URL
+                    SasUrl = fileUrl
                 });
             }
         }
@@ -53,6 +61,57 @@ public class NewsController : ApiBaseController
 
         return CreatedAtAction(nameof(GetNewsItem), new { id = newsItem.Id }, newsItem);
     }
+
+    private async Task<string> UploadCoverPhotoAsync(IFormFile coverPhoto)
+    {
+        return await UploadBlobAsync(coverPhoto, "cover-photos");
+    }
+
+    private async Task<string> UploadDefaultCoverPhotoAsync()
+    {
+        var defaultCoverPhotoPath = @"D:\News_photo.png";
+        var blobName = "default-cover-photo.png";
+        var containerClient = _blobServiceClient.GetBlobContainerClient("cover-photos"); // Use "cover-photos" container
+
+        // Check if the default image exists and only upload if it doesn't
+        var blobClient = containerClient.GetBlobClient(blobName);
+
+        if (!await blobClient.ExistsAsync())
+        {
+            await blobClient.UploadAsync(defaultCoverPhotoPath);
+        }
+        return await GenerateSasUrlAsync(blobClient);
+    }
+
+    private async Task<string> UploadBlobAsync(IFormFile file, string containerName)
+    {
+        var blobName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+        var blobClient = _blobServiceClient.GetBlobContainerClient(containerName).GetBlobClient(blobName);
+
+        await blobClient.UploadAsync(file.OpenReadStream(), new BlobHttpHeaders { ContentType = file.ContentType });
+
+        return await GenerateSasUrlAsync(blobClient);
+    }
+
+    // SAS URL Generation Method
+    private async Task<string> GenerateSasUrlAsync(BlobClient blobClient)
+    {
+        var sasBuilder = new BlobSasBuilder
+        {
+            BlobContainerName = blobClient.BlobContainerName,
+            BlobName = blobClient.Name,
+            Resource = "b",  // Resource type: blob
+            StartsOn = DateTimeOffset.UtcNow,
+            ExpiresOn = DateTimeOffset.UtcNow.AddMonths(6) // SAS valid for 24 hours
+        };
+        sasBuilder.SetPermissions(BlobSasPermissions.Read);
+
+        Uri sasUri = blobClient.GenerateSasUri(sasBuilder);
+        return sasUri.ToString();
+    }
+
+
+
 
     [HttpGet("{id}")]
     public async Task<ActionResult<NewsItem>> GetNewsItem(int id)
@@ -74,12 +133,12 @@ public class NewsController : ApiBaseController
             .Include(ni => ni.Files)
             .ToListAsync();
 
-        // Map to DTOs to avoid circular references
         var newsItemDtos = newsItems.Select(ni => new NewsItem
         {
             Id = ni.Id,
             Title = ni.Title,
             Description = ni.Description,
+            CoverPhotoUrl = ni.CoverPhotoUrl,
             Files = ni.Files.Select(f => new NewsItemFile
             {
                 Id = f.Id,
