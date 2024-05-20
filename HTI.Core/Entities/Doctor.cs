@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace HTI.Core.Entities
+namespace HTI.Core.Entities 
 {
     public class Doctor
     {

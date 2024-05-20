@@ -74,6 +74,20 @@ namespace HTI.Repository.Data
                 .HasForeignKey(sc => sc.TeachingAssistantId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+
+            modelBuilder.Entity<Quiz>()
+                .HasOne(sch => sch.StudentCourseHistory)
+                .WithMany(Q => Q.Quizzes)
+                .HasForeignKey(Q => Q.StudentCourseHistoryId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<TimeLine>().
+                HasOne(TL => TL.Group)
+                .WithMany(G => G.TimeLines)
+                .HasForeignKey(G => G.GroupId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
             modelBuilder.Entity<Attendance>()
                 .HasOne<Student>(a => a.Student)
                 .WithMany(s => s.Attendances)
@@ -118,6 +132,7 @@ namespace HTI.Repository.Data
         public DbSet<TrainingRegistration> TrainingRegistrations { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamMember> TeamMembers { get; set; }
+        public DbSet<Quiz> Quizzes { get; set; }
 
     }
 }

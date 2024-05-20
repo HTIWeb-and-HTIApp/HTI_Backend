@@ -12,13 +12,16 @@ namespace HTI_Backend.DTOs
 
         public string DoctorName { get; set; }
         public string TeachingAssistantName { get; set; }
-        public int StudentId { get; set; }
-        public string StudentName { get; set; }
+        public IEnumerable<student> Studs { get; set; }
 
 
     }
 
-
+    public class student
+    {
+        public int StudentId { get; set; }
+        public string StudentName { get; set; }
+    }
 
 
 

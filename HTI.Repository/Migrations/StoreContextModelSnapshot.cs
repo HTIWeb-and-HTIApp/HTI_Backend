@@ -213,6 +213,34 @@ namespace HTI.Repository.Migrations
                     b.ToTable("Groups");
                 });
 
+            modelBuilder.Entity("HTI.Core.Entities.Quiz", b =>
+                {
+                    b.Property<int>("QuizId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizId"), 1L, 1);
+
+                    b.Property<DateTime>("QuizDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float>("QuizGrade")
+                        .HasColumnType("real");
+
+                    b.Property<string>("QuizName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StudentCourseHistoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("QuizId");
+
+                    b.HasIndex("StudentCourseHistoryId");
+
+                    b.ToTable("Quizzes");
+                });
+
             modelBuilder.Entity("HTI.Core.Entities.Registration", b =>
                 {
                     b.Property<int>("RegistrationId")
@@ -310,10 +338,16 @@ namespace HTI.Repository.Migrations
                     b.Property<float>("MidtermGrades")
                         .HasColumnType("real");
 
+                    b.Property<int>("Semester")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudyYear")
                         .HasColumnType("int");
 
                     b.Property<int>("TeachingAssistantId")
@@ -416,6 +450,38 @@ namespace HTI.Repository.Migrations
                     b.HasIndex("TeamId");
 
                     b.ToTable("TeamMembers");
+                });
+
+            modelBuilder.Entity("HTI.Core.Entities.TimeLine", b =>
+                {
+                    b.Property<int>("TimeLineId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TimeLineId"), 1L, 1);
+
+                    b.Property<string>("CourseCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CourseID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TimeLineId");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("TimeLine");
                 });
 
             modelBuilder.Entity("HTI.Core.Entities.TrainingRegistration", b =>
@@ -701,6 +767,17 @@ namespace HTI.Repository.Migrations
                     b.Navigation("TeachingAssistant");
                 });
 
+            modelBuilder.Entity("HTI.Core.Entities.Quiz", b =>
+                {
+                    b.HasOne("HTI.Core.Entities.StudentCourseHistory", "StudentCourseHistory")
+                        .WithMany("Quizzes")
+                        .HasForeignKey("StudentCourseHistoryId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("StudentCourseHistory");
+                });
+
             modelBuilder.Entity("HTI.Core.Entities.Registration", b =>
                 {
                     b.HasOne("HTI.Core.Entities.Group", "Group")
@@ -783,6 +860,17 @@ namespace HTI.Repository.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("HTI.Core.Entities.TimeLine", b =>
+                {
+                    b.HasOne("HTI.Core.Entities.Group", "Group")
+                        .WithMany("TimeLines")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -862,6 +950,8 @@ namespace HTI.Repository.Migrations
                     b.Navigation("Registrations");
 
                     b.Navigation("StudentCourseHistories");
+
+                    b.Navigation("TimeLines");
                 });
 
             modelBuilder.Entity("HTI.Core.Entities.Student", b =>
@@ -871,6 +961,11 @@ namespace HTI.Repository.Migrations
                     b.Navigation("Registrations");
 
                     b.Navigation("StudentCourseHistories");
+                });
+
+            modelBuilder.Entity("HTI.Core.Entities.StudentCourseHistory", b =>
+                {
+                    b.Navigation("Quizzes");
                 });
 
             modelBuilder.Entity("HTI.Core.Entities.TeachingAssistant", b =>
