@@ -18,8 +18,8 @@ namespace HTI.Core.Entities
         public float WorkGrades { get; set; }
         public float FinalGrades { get; set; }
         public float MidtermGrades { get; set; }
-        //public int StudyYear { get; set; }
-        //public int Semester { get; set; }
+        public int StudyYear { get; set; }
+        public int Semester { get; set; }
 
         public bool Status { get; set; }
 
@@ -28,6 +28,8 @@ namespace HTI.Core.Entities
         public Group Group { get; set; }
         public Doctor Doctor { get; set; }
         public TeachingAssistant TeachingAssistant { get; set; }
+        public ICollection<Quiz> Quizzes { get; set; }
+
     }
 
 }

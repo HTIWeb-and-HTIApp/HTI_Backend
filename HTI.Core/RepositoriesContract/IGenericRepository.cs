@@ -20,6 +20,9 @@ namespace HTI.Core.RepositoriesContract
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
+        Task<T> GetAsync(Expression<Func<T, bool>> predicate);
+        Task AddRangeAsync(IEnumerable<T> entities);
+
 
     }
 }

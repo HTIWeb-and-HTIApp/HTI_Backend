@@ -4,12 +4,9 @@
     {
         public string CourseCode { get; set; }
         public string CourseName { get; set; }
-        //public int StudentCount { get; set; }
 
-        public int StudentCount { get; set; }
+        public IEnumerable<student> Studss { get; set; }
+
+
     }
-
-
-
-
 }

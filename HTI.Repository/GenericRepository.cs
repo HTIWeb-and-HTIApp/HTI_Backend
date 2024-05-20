@@ -70,7 +70,16 @@ namespace HTI.Repository
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbContext.Set<T>().FirstOrDefaultAsync(predicate);
+        }
+        public async Task AddRangeAsync(IEnumerable<T> entities)
+        {
+            await _dbContext.Set<T>().AddRangeAsync(entities);
+            await _dbContext.SaveChangesAsync();
+        }
 
-        
+
     }
 }
