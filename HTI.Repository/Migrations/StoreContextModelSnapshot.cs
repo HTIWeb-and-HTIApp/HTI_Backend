@@ -173,7 +173,7 @@ namespace HTI.Repository.Migrations
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DoctorId")
+                    b.Property<int?>("DoctorId")
                         .HasColumnType("int");
 
                     b.Property<int>("GroupNumber")
@@ -182,24 +182,28 @@ namespace HTI.Repository.Migrations
                     b.Property<bool>("IsOpen")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("LectureDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("LectureDay")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LectureRoom")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LectureTime")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MaxStudentNumber")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("SectionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SectionRoom")
-                        .IsRequired()
+                    b.Property<string>("SectionDay")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TeachingAssistantId")
+                    b.Property<string>("SectionRoom")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SectionTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TeachingAssistantId")
                         .HasColumnType("int");
 
                     b.HasKey("GroupId");
@@ -391,6 +395,10 @@ namespace HTI.Repository.Migrations
                     b.Property<float>("GPA")
                         .HasColumnType("real");
 
+                    b.Property<string>("GradeLatter")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
 
@@ -400,8 +408,8 @@ namespace HTI.Repository.Migrations
                     b.Property<int>("Semester")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
@@ -809,15 +817,11 @@ namespace HTI.Repository.Migrations
 
                     b.HasOne("HTI.Core.Entities.Doctor", "Doctor")
                         .WithMany("Groups")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DoctorId");
 
                     b.HasOne("HTI.Core.Entities.TeachingAssistant", "TeachingAssistant")
                         .WithMany("Groups")
-                        .HasForeignKey("TeachingAssistantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TeachingAssistantId");
 
                     b.Navigation("Course");
 

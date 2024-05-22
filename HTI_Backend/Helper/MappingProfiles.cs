@@ -85,6 +85,8 @@ namespace HTI_Backend.Helper
               .ForMember(d => d.MidtermGrades, o => o.MapFrom(s => s.StudentCourseHistories.Select(SCH => SCH.MidtermGrades).FirstOrDefault()))
               .ForMember(d => d.WorkGrades, o => o.MapFrom(s => s.StudentCourseHistories.Select(SCH => SCH.WorkGrades).FirstOrDefault()))
               .ForMember(d => d.FinalGrades, o => o.MapFrom(s => s.StudentCourseHistories.Select(SCH => SCH.FinalGrades).FirstOrDefault()))
+              .ForMember(d => d.GradeLatter, o => o.MapFrom(s => s.StudentCourseHistories.Select(SCH => SCH.GradeLatter).FirstOrDefault()))
+
               ;
 
             //  CreateMap<GroupDto, DoctorCoursesReturnDto>()

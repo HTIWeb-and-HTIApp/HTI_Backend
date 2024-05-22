@@ -44,7 +44,7 @@ namespace HTI_Backend.Controllers
                         float workGrades = float.Parse(workSheet.Cells[row, 7].Value.ToString());
                         float finalGrades = float.Parse(workSheet.Cells[row, 8].Value.ToString());
                         float midtermGrades = float.Parse(workSheet.Cells[row, 9].Value.ToString());
-                        bool status = bool.Parse(workSheet.Cells[row, 10].Value.ToString());
+                        int status = int.Parse(workSheet.Cells[row, 10].Value.ToString());
 
                         // Check if a record already exists
                         var existingRecord = await _studentCourseHistoryRepository.GetAsync(s => s.StudentId == studentId && s.CourseId == courseId && s.GroupId == groupId);

@@ -9,13 +9,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HTI_Backend.Controllers
 {
-  
+
     public class TeachingAssistantController : ApiBaseController
     {
         private readonly IGenericRepository<TeachingAssistant> _tARepo;
         private readonly IMapper _mapper;
 
-        public TeachingAssistantController(IGenericRepository<TeachingAssistant> TARepo , IMapper mapper)
+        public TeachingAssistantController(IGenericRepository<TeachingAssistant> TARepo, IMapper mapper)
         {
             _tARepo = TARepo;
             _mapper = mapper;
@@ -28,7 +28,7 @@ namespace HTI_Backend.Controllers
             if (!ModelState.IsValid) return BadRequest(new ApiResponse(400));
             var TACourses = _tARepo.FindByCondition(S => S.TeachingAssistantId == id, S => S.Include(C => C.Groups).ThenInclude(T => T.Course)).Result.FirstOrDefault();
             if (TACourses == null) return NotFound(new ApiResponse(404));
-            TACourses.Groups = TACourses.Groups.Where(w => w.IsOpen).ToList();
+            TACourses.Groups = TACourses.Groups.Where(w => w.IsOpen == true).ToList();
             var mappedTACourses = _mapper.Map<TACoursesReturnDto>(TACourses);
             mappedTACourses.courses = _mapper.Map<IEnumerable<course>>(TACourses.Groups.Select(C => C.Course).Distinct());
 

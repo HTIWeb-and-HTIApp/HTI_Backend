@@ -1,5 +1,6 @@
 [
   {
+    "": 1,
     "Name": "Ahmed El wakil",
     "Email": "ahmed.el.wakil@hti.edu.eg",
     "PhoneNumber": "0155736140",
@@ -7,6 +8,7 @@
     "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
   },
   {
+    "": 2,
     "Name": "Adel Khaled",
     "Email": "adel.khaled@hti.edu.eg",
     "PhoneNumber": "0123451547",
@@ -14,6 +16,7 @@
     "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
   },
   {
+    "": 3,
     "Name": "Ahmed Magdy",
     "Email": "ahmed.magdy@hti.edu.eg",
     "PhoneNumber": "0115401736",
@@ -21,6 +24,7 @@
     "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
   },
   {
+    "": 4,
     "Name": "Shimaa",
     "Email": "shimaa@hti.edu.eg",
     "PhoneNumber": "0158743637",
@@ -28,6 +32,7 @@
     "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
   },
   {
+    "": 5,
     "Name": "Dina",
     "Email": "dina@hti.edu.eg",
     "PhoneNumber": "0157536164",
@@ -35,6 +40,7 @@
     "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
   },
   {
+    "": 6,
     "Name": "Yousria abo el naga",
     "Email": "yousria.abo.el.naga@hti.edu.eg",
     "PhoneNumber": "0155925187",
@@ -42,6 +48,7 @@
     "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
   },
   {
+    "": 7,
     "Name": "Abaid",
     "Email": "abaid@hti.edu.eg",
     "PhoneNumber": "0113185309",
@@ -49,6 +56,7 @@
     "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
   },
   {
+    "": 8,
     "Name": "Ashraf",
     "Email": "ashraf@hti.edu.eg",
     "PhoneNumber": "0102376332",
@@ -56,6 +64,7 @@
     "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
   },
   {
+    "": 9,
     "Name": "Mona",
     "Email": "mona@hti.edu.eg",
     "PhoneNumber": "0103943834",
@@ -63,6 +72,7 @@
     "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
   },
   {
+    "": 10,
     "Name": "Sara Ahmed",
     "Email": "sara.ahmed@hti.edu.eg",
     "PhoneNumber": "0123832399",
@@ -70,10 +80,128 @@
     "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
   },
   {
+    "": 11,
     "Name": "Sara Hamdy",
     "Email": "sara.hamdy@hti.edu.eg",
     "PhoneNumber": "0156876734",
     "Bio": "Dr. Sara Hamdy is a Professor of Computer Science with a strong background in AI, ML, and Data Mining. She earned his BS, MS, and PhD from Alexandria University and has a strong background in AI, ML, and Data Mining. She has published several papers on image classification, sentiment analysis, and clustering. She is a member of ACM, IEEE, and ECSA, and her received awards for his research and teaching.",
+    "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
+  },
+  {
+    "": 12,
+    "Name": "Farahat",
+    "Email": "Farahat@hti.edu.eg",
+    "PhoneNumber": "0102376542",
+    "Bio": "Dr. Farahat is a Professor of Computer Science with a strong background in AI, ML, and Data Mining. He earned his BS, MS, and PhD from Alexandria University and has a strong background in AI, ML, and Data Mining. He has published several papers on image classification, sentiment analysis, and clustering. He is a member of ACM, IEEE, and ECSA, and has received awards for his research and teaching.",
+    "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
+  }
+  ,
+  {
+    "": 13,
+    "Name": "Osama Helmy",
+    "Email": "osama.helmy@hti.edu.eg",
+    "PhoneNumber": "0102376332",
+    "Bio": "Dr. Osama Helmy is a Professor of Computer Science with a strong background in AI, ML, and Data Mining. He earned his BS, MS, and PhD from Alexandria University and has a strong background in AI, ML, and Data Mining. He has published several papers on image classification, sentiment analysis, and clustering. He is a member of ACM, IEEE, and ECSA, and has received awards for his research and teaching.",
+    "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
+  }  ,
+  {
+    "": 14,
+    "Name": "Osama Farouk",
+    "Email": "osama.farouk@hti.edu.eg",
+    "PhoneNumber": "0101376332",
+    "Bio": "Dr. Osama Farouk is a Professor of Computer Science with a strong background in AI, ML, and Data Mining. He earned his BS, MS, and PhD from Alexandria University and has a strong background in AI, ML, and Data Mining. He has published several papers on image classification, sentiment analysis, and clustering. He is a member of ACM, IEEE, and ECSA, and has received awards for his research and teaching.",
+    "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
+  },
+  {
+    "": 15,
+    "Name": "Basel Hafez",
+    "Email": "basel.hafez@hti.edu.eg",
+    "PhoneNumber": "0102373232",
+    "Bio": "Dr. Basel Hafez is a Professor of Computer Science with a strong background in AI, ML, and Data Mining. He earned his BS, MS, and PhD from Alexandria University and has a strong background in AI, ML, and Data Mining. He has published several papers on image classification, sentiment analysis, and clustering. He is a member of ACM, IEEE, and ECSA, and has received awards for his research and teaching.",
+    "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
+  },
+  {
+    "": 16,
+    "Name": "Ayman Soliman",
+    "Email": "ayman.soliman@hti.edu.eg",
+    "PhoneNumber": "0122373232",
+    "Bio": "Dr. Ayman Soliman is a Professor of Computer Science with a strong background in AI, ML, and Data Mining. He earned his BS, MS, and PhD from Alexandria University and has a strong background in AI, ML, and Data Mining. He has published several papers on image classification, sentiment analysis, and clustering. He is a member of ACM, IEEE, and ECSA, and has received awards for his research and teaching.",
+    "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
+  },
+  {
+    "": 17,
+    "Name": "Nader",
+    "Email": "nader@hti.edu.eg",
+    "PhoneNumber": "0122311232",
+    "Bio": "Dr. Nader is a Professor of Computer Science with a strong background in AI, ML, and Data Mining. He earned his BS, MS, and PhD from Alexandria University and has a strong background in AI, ML, and Data Mining. He has published several papers on image classification, sentiment analysis, and clustering. He is a member of ACM, IEEE, and ECSA, and has received awards for his research and teaching.",
+    "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
+  }
+  ,
+  {
+    "": 18,
+    "Name": "Eman Salem",
+    "Email": "eman.salem@hti.edu.eg",
+    "PhoneNumber": "0156876734",
+    "Bio": "Dr. Eman Salem is a Professor of Computer Science with a strong background in AI, ML, and Data Mining. She earned his BS, MS, and PhD from Alexandria University and has a strong background in AI, ML, and Data Mining. She has published several papers on image classification, sentiment analysis, and clustering. She is a member of ACM, IEEE, and ECSA, and her received awards for his research and teaching.",
+    "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
+  }
+  ,
+  {
+    "": 19,
+    "Name": "Ahmed Naser",
+    "Email": "ahmed.naser@hti.edu.eg",
+    "PhoneNumber": "0122311543",
+    "Bio": "Dr. Ahmed Naser is a Professor of Computer Science with a strong background in AI, ML, and Data Mining. He earned his BS, MS, and PhD from Alexandria University and has a strong background in AI, ML, and Data Mining. He has published several papers on image classification, sentiment analysis, and clustering. He is a member of ACM, IEEE, and ECSA, and has received awards for his research and teaching.",
+    "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
+  }
+  ,
+  {
+    "": 20,
+    "Name": "Rasha",
+    "Email": "rasha@hti.edu.eg",
+    "PhoneNumber": "01562176734",
+    "Bio": "Dr. Rasha is a Professor of Computer Science with a strong background in AI, ML, and Data Mining. She earned his BS, MS, and PhD from Alexandria University and has a strong background in AI, ML, and Data Mining. She has published several papers on image classification, sentiment analysis, and clustering. She is a member of ACM, IEEE, and ECSA, and her received awards for his research and teaching.",
+    "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
+  }
+  ,
+  {
+    "": 21,
+    "Name": "Osama el marakby",
+    "Email": "Osama.el.marakby@hti.edu.eg",
+    "PhoneNumber": "0122311543",
+    "Bio": "Dr. Osama el marakby is a Professor of Computer Science with a strong background in AI, ML, and Data Mining. He earned his BS, MS, and PhD from Alexandria University and has a strong background in AI, ML, and Data Mining. He has published several papers on image classification, sentiment analysis, and clustering. He is a member of ACM, IEEE, and ECSA, and has received awards for his research and teaching.",
+    "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
+  },
+    {
+    "": 22,
+    "Name": "Osama el marakby",
+    "Email": "Osama.el.marakby@hti.edu.eg",
+    "PhoneNumber": "0122311543",
+    "Bio": "Dr. Osama el marakby is a Professor of Computer Science with a strong background in AI, ML, and Data Mining. He earned his BS, MS, and PhD from Alexandria University and has a strong background in AI, ML, and Data Mining. He has published several papers on image classification, sentiment analysis, and clustering. He is a member of ACM, IEEE, and ECSA, and has received awards for his research and teaching.",
+    "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
+  },
+    {
+    "": 23,
+    "Name": "Osama el marakby",
+    "Email": "Osama.el.marakby@hti.edu.eg",
+    "PhoneNumber": "0122311543",
+    "Bio": "Dr. Osama el marakby is a Professor of Computer Science with a strong background in AI, ML, and Data Mining. He earned his BS, MS, and PhD from Alexandria University and has a strong background in AI, ML, and Data Mining. He has published several papers on image classification, sentiment analysis, and clustering. He is a member of ACM, IEEE, and ECSA, and has received awards for his research and teaching.",
+    "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
+  },
+    {
+    "": 24,
+    "Name": "Osama el marakby",
+    "Email": "Osama.el.marakby@hti.edu.eg",
+    "PhoneNumber": "0122311543",
+    "Bio": "Dr. Osama el marakby is a Professor of Computer Science with a strong background in AI, ML, and Data Mining. He earned his BS, MS, and PhD from Alexandria University and has a strong background in AI, ML, and Data Mining. He has published several papers on image classification, sentiment analysis, and clustering. He is a member of ACM, IEEE, and ECSA, and has received awards for his research and teaching.",
+    "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
+  },
+    {
+    "": 25,
+    "Name": "Osama el marakby",
+    "Email": "Osama.el.marakby@hti.edu.eg",
+    "PhoneNumber": "0122311543",
+    "Bio": "Dr. Osama el marakby is a Professor of Computer Science with a strong background in AI, ML, and Data Mining. He earned his BS, MS, and PhD from Alexandria University and has a strong background in AI, ML, and Data Mining. He has published several papers on image classification, sentiment analysis, and clustering. He is a member of ACM, IEEE, and ECSA, and has received awards for his research and teaching.",
     "Cv": "https://drive.google.com/file/d/1Hxd4INwq3BnhReSWo9RHyqhFTtKgOBjO/view?usp=sharing"
   }
 ]

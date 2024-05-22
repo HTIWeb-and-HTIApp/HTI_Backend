@@ -26,7 +26,7 @@ namespace HTI_Backend.Controllers
         [ProducesResponseType(typeof(ApiResponse), 404)]
         public async Task<IActionResult> GetallStudentsLastTermCourses()
         {
-            var StudentsLastTermCourses = await _courseRepo.FindByCondition(S => S.Student.Credits >= 137 && S.Status == true, T => T.Include(T => T.Course).Include(T => T.Student));
+            var StudentsLastTermCourses = await _courseRepo.FindByCondition(S => S.Student.Credits >= 137 && S.Status == 1, T => T.Include(T => T.Course).Include(T => T.Student));
             if (StudentsLastTermCourses.Count == 0) return NotFound(new ApiResponse(404));
 
             var ReturnStudentsLastTermCourses = _mapper.Map<StudentsLastTermCoursesDTOs>(StudentsLastTermCourses);

@@ -14,6 +14,8 @@
         public float WorkGrades { get; set; }
         public float FinalGrades { get; set; }
         public float MidtermGrades { get; set; }
+        public string GradeLatter { get; set; }
+
         public float TotalGrades
         {
             get { return WorkGrades + FinalGrades + MidtermGrades; }

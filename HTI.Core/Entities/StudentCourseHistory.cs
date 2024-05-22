@@ -16,12 +16,17 @@ namespace HTI.Core.Entities
         public int TeachingAssistantId { get; set; }
         public float GPA { get; set; }
         public float WorkGrades { get; set; }
+
         public float FinalGrades { get; set; }
         public float MidtermGrades { get; set; }
         public int StudyYear { get; set; }
+
         public int Semester { get; set; }
 
-        public bool Status { get; set; }
+        public string GradeLatter { get; set; }
+
+
+        public int Status { get; set; }
 
         public Student Student { get; set; }
         public Course Course { get; set; }

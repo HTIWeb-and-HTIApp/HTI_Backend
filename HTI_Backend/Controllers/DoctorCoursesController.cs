@@ -28,16 +28,16 @@ namespace HTI_Backend.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(new ApiResponse(400));
             var DoctorCourses = _doctorRepo.FindByCondition(S => S.DoctorId == id, S => S.Include(C => C.Groups).ThenInclude(T => T.Course)).Result.FirstOrDefault();
-            DoctorCourses.Groups = DoctorCourses.Groups.Where(w => w.IsOpen).ToList();
+            DoctorCourses.Groups = DoctorCourses.Groups.Where(w => w.IsOpen == true).ToList();
             if (DoctorCourses == null) return NotFound(new ApiResponse(404));
             var mappedDoctorCourses = _mapper.Map<DoctorCoursesReturnDto>(DoctorCourses);
             mappedDoctorCourses.courses = _mapper.Map<IEnumerable<course>>(DoctorCourses.Groups.Select(C => C.Course).Distinct());
 
             return Ok(mappedDoctorCourses);
         }
-        
-        
-        
+
+
+
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(DoctorCoursesReturnDto), 200)]
         [ProducesResponseType(typeof(ApiResponse), 404)]

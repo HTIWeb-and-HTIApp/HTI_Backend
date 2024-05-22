@@ -170,6 +170,8 @@ namespace HTI.Repository.Data
                 options.Converters.Add(new JsonStringToDateConverter());
                 options.Converters.Add(new NullableIntConverter());
                 options.Converters.Add(new BooleanConverter());
+                options.Converters.Add(new NullConverter());
+
 
                 var studentCourseHistories = JsonSerializer.Deserialize<List<StudentCourseHistory>>(StudentCourseHistoriesData, options);
 
@@ -231,26 +233,26 @@ namespace HTI.Repository.Data
 
 
 public class JsonStringToDateConverter : JsonConverter<DateTime>
+{
+    public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        if (reader.TokenType != JsonTokenType.String)
         {
-            if (reader.TokenType != JsonTokenType.String)
-            {
-                throw new JsonException();
-            }
-
-            var dateString = reader.GetString();
-            return DateTime.ParseExact(dateString, "M/d/yyyy", null);
+            throw new JsonException();
         }
 
-        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
-        {
-            writer.WriteStringValue(value.ToString("M/d/yyyy"));
-        }
+        var dateString = reader.GetString();
+        return DateTime.Parse(dateString);
     }
 
+    public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+    {
+        writer.WriteStringValue(value.ToString("yyyy-MM-ddTHH:mm:ss"));
+    }
+}
 
-    public class BooleanConverter : JsonConverter<bool>
+
+public class BooleanConverter : JsonConverter<bool>
     {
         public override bool Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -269,7 +271,7 @@ public class JsonStringToDateConverter : JsonConverter<DateTime>
             writer.WriteBooleanValue(value);
         }
     }
-    public class NullableIntConverter : JsonConverter<int?>
+public class NullableIntConverter : JsonConverter<int?>
     {
         public override int? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -303,3 +305,46 @@ public class JsonStringToDateConverter : JsonConverter<DateTime>
             }
         }
     }
+public class NullConverter : JsonConverter<int?>
+{
+    public override int? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (reader.TokenType == JsonTokenType.Null)
+        {
+            return 0;
+        }
+        else if (reader.TokenType == JsonTokenType.String)
+        {
+            var stringValue = reader.GetString();
+            if (string.IsNullOrEmpty(stringValue))
+            {
+                return 0;
+            }
+            else
+            {
+                return int.Parse(stringValue);
+            }
+        }
+        else
+        {
+            return reader.GetInt32();
+        }
+    }
+
+    public override void Write(Utf8JsonWriter writer, int? value, JsonSerializerOptions options)
+    {
+        if (value.HasValue)
+        {
+            writer.WriteNumberValue(value.Value);
+        }
+        else
+        {
+            writer.WriteNullValue();
+        }
+    }
+}
+
+
+
+
+
