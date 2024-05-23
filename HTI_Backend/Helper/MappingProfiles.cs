@@ -120,6 +120,12 @@ namespace HTI_Backend.Helper
             .ForMember(d => d.CourseCode, o => o.MapFrom(s => s.Course.CourseCode))
             .ForMember(d => d.CourseName, o => o.MapFrom(s => s.Course.Name));
 
+
+            CreateMap<Registration, ScheduleReturnDTO>()
+             .ForMember(dest => dest.CourseName, opt => opt.MapFrom(src => src.Group.Course.Name))
+             .ForMember(dest => dest.CourseCode, opt => opt.MapFrom(src => src.Group.Course.CourseCode))
+
+             ;
         }
 
     }
