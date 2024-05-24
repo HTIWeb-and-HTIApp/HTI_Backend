@@ -40,15 +40,8 @@ namespace HTI_Backend.Helper
             //ForMember(d => d.Status , O => O.MapFrom(S =>S.StudentCourseHistories.));
 
 
-            CreateMap<TimeLineCreateDTO, TimeLine>()
-           
-                ;
 
-            CreateMap<TimeLineUpdateDTO, TimeLine>();
-            CreateMap<TimeLine, TimeLineReturnDTO>() 
-                .ForMember(d => d.CourseID , O => O.MapFrom( S=>S.Group.Course.CourseId ))
-                .ForMember(d => d.CourseCode , O => O.MapFrom( S=>S.Group.Course.CourseCode ))
-                ;
+
 
             CreateMap<Registration, StudentCoursesRetuenDTOs>()
                                 .ForMember(d => d.CourseCode, O => O.MapFrom(S => S.Group.Course.CourseCode))
@@ -74,10 +67,7 @@ namespace HTI_Backend.Helper
             .ForMember(d => d.DoctorName, o => o.MapFrom(s => s.Doctor.Name))
             .ForMember(d => d.TeachingAssistantName, o => o.MapFrom(s => s.TeachingAssistant.Name))
         ;
-            //  CreateMap<Group, DoctorCoursesReturnDto>()
-            //      .ForMember(d => d.DoctorName, O => O.MapFrom(s => s.Doctor.Name))
-            //      .ForMember(d => d.DoctorId, O => O.MapFrom(s => s.DoctorId))
-            //      ;
+
 
              CreateMap<Course, coursesdTO>()
              .ForMember(d => d.Name, o => o.MapFrom(s => s.Name))
@@ -89,9 +79,7 @@ namespace HTI_Backend.Helper
 
               ;
 
-            //  CreateMap<GroupDto, DoctorCoursesReturnDto>()
-            //.ForMember(d => d.DoctorId, o => o.MapFrom(s => s.DoctorId))
-            //.ForMember(d => d.courses, o => o.MapFrom(s => s.Course));
+
            
             CreateMap<Course, course>()
             .ForMember(d => d.Name, o => o.MapFrom(s => s.Name))
@@ -126,6 +114,24 @@ namespace HTI_Backend.Helper
              .ForMember(dest => dest.CourseCode, opt => opt.MapFrom(src => src.Group.Course.CourseCode))
 
              ;
+
+
+
+
+            //CreateMap<TimeLine, TimeLineReturnDTO>()
+            //.ForMember(d => d.GroupId, O => O.MapFrom(S => S.Group.GroupId))
+            //.ForMember(d => d.Type, O => O.MapFrom(S => S.Type))
+            //.ForMember(d => d.Title, O => O.MapFrom(S => S.Title))
+            //.ForMember(d => d.Description, O => O.MapFrom(S => S.Description))
+            //.ForMember(d => d.Deadline, O => O.MapFrom(S => S.Deadline))
+            //.ForMember(d => d.Files, O => O.MapFrom(S => S.Files))
+            //    ;
+
+            //CreateMap<TimeLineUpdateDTO, TimeLine>();
+            CreateMap<TimeLineCreateDTO, TimeLine>();
+            CreateMap<TimeLineUpdateDTO, TimeLine>();
+            CreateMap<TimeLine, TimeLineReturnDTO>();
+            CreateMap<TimeLineFile, TimeLineFileDTO>();
         }
 
     }

@@ -10,10 +10,15 @@ namespace HTI.Core.Entities
     {   
         public int TimeLineId { get; set; }
         public int GroupId { get; set; }
-        public int CourseID { get; set; }
-        public string CourseCode { get; set; }
+        public string Type { get; set; }
         public string Title { get; set; }
-        public DateTime Time { get; set; }
+        public string? Description { get; set; }
+
+        public DateTime Deadline { get; set; }
+        public List<TimeLineFile>? Files { get; set; } = new();
+
+
         public Group Group { get; set; }
+
     }
 }

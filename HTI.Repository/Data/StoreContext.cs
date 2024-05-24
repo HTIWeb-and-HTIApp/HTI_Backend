@@ -121,6 +121,12 @@ namespace HTI.Repository.Data
             modelBuilder.Entity<NewsItem>()
             .HasMany(ni => ni.Files)
             .WithOne(nif => nif.NewsItem);
+
+            modelBuilder.Entity<TimeLine>()
+            .HasMany(ni => ni.Files)
+            .WithOne(nif => nif.TimeLine);
+
+
         }
         public DbSet<Student> Students { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
@@ -140,6 +146,10 @@ namespace HTI.Repository.Data
 
         public DbSet<NewsItem> NewsItems { get; set; }
         public DbSet<NewsItemFile> NewsItemFiles { get; set; }
+
+        public DbSet<TimeLine> TimeLines { get; set; }
+        public DbSet<TimeLineFile> TimeLineFiels { get; set; }
+
 
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HTI.Repository.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240517131934_TimeLines")]
-    partial class TimeLines
+    [Migration("20240524054737_Timeline_tasks")]
+    partial class Timeline_tasks
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -175,7 +175,7 @@ namespace HTI.Repository.Migrations
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DoctorId")
+                    b.Property<int?>("DoctorId")
                         .HasColumnType("int");
 
                     b.Property<int>("GroupNumber")
@@ -184,24 +184,28 @@ namespace HTI.Repository.Migrations
                     b.Property<bool>("IsOpen")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("LectureDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("LectureDay")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LectureRoom")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LectureTime")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MaxStudentNumber")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("SectionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SectionRoom")
-                        .IsRequired()
+                    b.Property<string>("SectionDay")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TeachingAssistantId")
+                    b.Property<string>("SectionRoom")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SectionTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TeachingAssistantId")
                         .HasColumnType("int");
 
                     b.HasKey("GroupId");
@@ -213,6 +217,65 @@ namespace HTI.Repository.Migrations
                     b.HasIndex("TeachingAssistantId");
 
                     b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("HTI.Core.Entities.NewsItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CoverPhotoUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NewsItems");
+                });
+
+            modelBuilder.Entity("HTI.Core.Entities.NewsItemFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("BlobName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NewsItemId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OriginalFileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SasUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NewsItemId");
+
+                    b.ToTable("NewsItemFiles");
                 });
 
             modelBuilder.Entity("HTI.Core.Entities.Quiz", b =>
@@ -334,16 +397,26 @@ namespace HTI.Repository.Migrations
                     b.Property<float>("GPA")
                         .HasColumnType("real");
 
+                    b.Property<string>("GradeLatter")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
 
                     b.Property<float>("MidtermGrades")
                         .HasColumnType("real");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
+                    b.Property<int>("Semester")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudyYear")
                         .HasColumnType("int");
 
                     b.Property<int>("TeachingAssistantId")
@@ -456,20 +529,20 @@ namespace HTI.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TimeLineId"), 1L, 1);
 
-                    b.Property<string>("CourseCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Deadline")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("CourseID")
-                        .HasColumnType("int");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -477,7 +550,41 @@ namespace HTI.Repository.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("TimeLine");
+                    b.ToTable("TimeLines");
+                });
+
+            modelBuilder.Entity("HTI.Core.Entities.TimeLineFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("BlobName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OriginalFileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SasUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TimeLineId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TimeLineId");
+
+                    b.ToTable("TimeLineFiels");
                 });
 
             modelBuilder.Entity("HTI.Core.Entities.TrainingRegistration", b =>
@@ -746,21 +853,28 @@ namespace HTI.Repository.Migrations
 
                     b.HasOne("HTI.Core.Entities.Doctor", "Doctor")
                         .WithMany("Groups")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DoctorId");
 
                     b.HasOne("HTI.Core.Entities.TeachingAssistant", "TeachingAssistant")
                         .WithMany("Groups")
-                        .HasForeignKey("TeachingAssistantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TeachingAssistantId");
 
                     b.Navigation("Course");
 
                     b.Navigation("Doctor");
 
                     b.Navigation("TeachingAssistant");
+                });
+
+            modelBuilder.Entity("HTI.Core.Entities.NewsItemFile", b =>
+                {
+                    b.HasOne("HTI.Core.Entities.NewsItem", "NewsItem")
+                        .WithMany("Files")
+                        .HasForeignKey("NewsItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("NewsItem");
                 });
 
             modelBuilder.Entity("HTI.Core.Entities.Quiz", b =>
@@ -867,6 +981,17 @@ namespace HTI.Repository.Migrations
                     b.Navigation("Group");
                 });
 
+            modelBuilder.Entity("HTI.Core.Entities.TimeLineFile", b =>
+                {
+                    b.HasOne("HTI.Core.Entities.TimeLine", "TimeLine")
+                        .WithMany("Files")
+                        .HasForeignKey("TimeLineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TimeLine");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -950,6 +1075,11 @@ namespace HTI.Repository.Migrations
                     b.Navigation("TimeLines");
                 });
 
+            modelBuilder.Entity("HTI.Core.Entities.NewsItem", b =>
+                {
+                    b.Navigation("Files");
+                });
+
             modelBuilder.Entity("HTI.Core.Entities.Student", b =>
                 {
                     b.Navigation("Attendances");
@@ -974,6 +1104,11 @@ namespace HTI.Repository.Migrations
             modelBuilder.Entity("HTI.Core.Entities.Team", b =>
                 {
                     b.Navigation("TeamMembers");
+                });
+
+            modelBuilder.Entity("HTI.Core.Entities.TimeLine", b =>
+                {
+                    b.Navigation("Files");
                 });
 #pragma warning restore 612, 618
         }
