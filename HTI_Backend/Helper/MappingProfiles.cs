@@ -132,6 +132,10 @@ namespace HTI_Backend.Helper
             CreateMap<TimeLineUpdateDTO, TimeLine>();
             CreateMap<TimeLine, TimeLineReturnDTO>();
             CreateMap<TimeLineFile, TimeLineFileDTO>();
+
+            CreateMap<Doctor, DoctorsDto>();
+            CreateMap<TeachingAssistant, taDto>();
+
         }
 
     }

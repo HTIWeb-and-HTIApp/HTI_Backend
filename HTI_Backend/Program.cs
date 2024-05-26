@@ -14,7 +14,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-
+using DinkToPdf;
+using DinkToPdf.Contracts;
+using Microsoft.Extensions.DependencyInjection;
+using QuestPDF.Infrastructure;
 namespace HTI_Backend
 {
     public class Program
@@ -101,6 +104,7 @@ namespace HTI_Backend
                     });
             });
 
+            builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
 
 
@@ -141,10 +145,10 @@ namespace HTI_Backend
             }
             #endregion
 
-
+            QuestPDF.Settings.License = LicenseType.Community;
             #region Configure Kestral Middleres
             // Configure the HTTP request pipeline.
-           
+
             app.UseRouting();
             app.UseCors("AllowSpecificOrigin"); // Apply the CORS policy
             app.UseAuthentication();
