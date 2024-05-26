@@ -53,5 +53,20 @@
         public int StudentId { get; set; }
         public List<CourseWithTimeLineDTO> Courses { get; set; }
     }
+    public class SolutionCreateDTO
+    {
+        public int StudentId { get; set; }
+        public int TimeLineId { get; set; }
+        public IFormFile File { get; set; }
+    }
+
+    public class SolutionReturnDTO
+    {
+        public int SolutionId { get; set; }
+        public int StudentId { get; set; }
+        public int TimeLineId { get; set; }
+        public string FilePath { get; set; }
+        public DateTime SubmissionDate { get; set; }
+    }
 
 }

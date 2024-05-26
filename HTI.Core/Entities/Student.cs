@@ -25,5 +25,6 @@ namespace HTI.Core.Entities
         public ICollection<Registration> Registrations { get; set; }
         public ICollection<StudentCourseHistory> StudentCourseHistories { get; set; }
         public ICollection<Attendance> Attendances { get; set; }
+        public ICollection<Solution> Solutions { get; set; }
     }
 }
