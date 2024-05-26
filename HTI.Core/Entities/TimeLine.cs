@@ -17,5 +17,7 @@ namespace HTI.Core.Entities
         public List<TimeLineFile>? Files { get; set; } = new();
         public Group Group { get; set; }
 
+        public ICollection<Solution> Solutions { get; set; }
+
     }
 }

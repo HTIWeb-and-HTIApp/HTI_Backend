@@ -256,6 +256,47 @@ namespace HTI_Backend.Controllers
         }
 
 
+        [HttpPost("UploadSolution")]
+        [ProducesResponseType(typeof(SolutionReturnDTO), 200)]
+        [ProducesResponseType(typeof(ApiResponse), 400)]
+        public async Task<IActionResult> UploadSolution([FromForm] SolutionCreateDTO solutionDto)
+        {
+            if (!ModelState.IsValid) return BadRequest(new ApiResponse(400));
+
+            var student = await _dbContext.Students.FindAsync(solutionDto.StudentId);
+            if (student == null) return NotFound(new ApiResponse(404, "Student not found"));
+
+            var timeline = await _timeLineRepo.GetByIdAsync(solutionDto.TimeLineId);
+            if (timeline == null) return NotFound(new ApiResponse(404, "Timeline not found"));
+
+            // Upload the file to Azure Blob Storage
+            var filePath = await UploadBlobAsync(solutionDto.File, "solutions");
+
+            var solution = new Solution
+            {
+                StudentId = solutionDto.StudentId,
+                TimeLineId = solutionDto.TimeLineId,
+                FilePath = filePath,
+                SubmissionDate = DateTime.UtcNow
+            };
+
+            _dbContext.Solutions.Add(solution);
+            await _dbContext.SaveChangesAsync();
+
+            var result = new SolutionReturnDTO
+            {
+                SolutionId = solution.SolutionId,
+                StudentId = solution.StudentId,
+                TimeLineId = solution.TimeLineId,
+                FilePath = solution.FilePath,
+                SubmissionDate = solution.SubmissionDate
+            };
+
+            return Ok(result);
+        }
+
+
+
 
 
     }

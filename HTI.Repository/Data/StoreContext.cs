@@ -126,6 +126,17 @@ namespace HTI.Repository.Data
             .HasMany(ni => ni.Files)
             .WithOne(nif => nif.TimeLine);
 
+            modelBuilder.Entity<Solution>()
+                .HasOne<Student>(s => s.Student)
+                .WithMany(st => st.Solutions)
+                .HasForeignKey(s => s.StudentId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Solution>()
+                .HasOne<TimeLine>(s => s.TimeLine)
+                .WithMany(tl => tl.Solutions)
+                .HasForeignKey(s => s.TimeLineId)
+                .OnDelete(DeleteBehavior.NoAction);
 
         }
         public DbSet<Student> Students { get; set; }
@@ -149,6 +160,8 @@ namespace HTI.Repository.Data
 
         public DbSet<TimeLine> TimeLines { get; set; }
         public DbSet<TimeLineFile> TimeLineFiels { get; set; }
+        public DbSet<Solution> Solutions { get; set; }
+
 
 
     }
