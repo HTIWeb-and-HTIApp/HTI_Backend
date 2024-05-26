@@ -40,5 +40,17 @@
         public string ContentType { get; set; }
         public string SasUrl { get; set; }
     }
+    public class CourseWithTimeLineDTO
+    {
+        public int CourseId { get; set; }
+        public string CourseCode { get; set; }
+        public string Name { get; set; }
+        public List<TimeLineReturnDTO> TimeLines { get; set; }
+    }
+    public class StudentCoursesWithTimeLinesDTO
+    {
+        public int StudentId { get; set; }
+        public List<CourseWithTimeLineDTO> Courses { get; set; }
+    }
 
 }

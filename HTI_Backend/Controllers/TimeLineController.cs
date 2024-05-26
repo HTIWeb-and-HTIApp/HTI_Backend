@@ -23,14 +23,16 @@ namespace HTI_Backend.Controllers
         private readonly IMapper _mapper;
         private readonly BlobServiceClient _blobServiceClient;
         private readonly StoreContext _dbContext;
+        private readonly IGenericRepository<Registration> _regRepo;
 
-        public TimeLineController(IGenericRepository<TimeLine> timeLineRepo, IMapper mapper, BlobServiceClient blobServiceClient, StoreContext dbContext)
+        public TimeLineController(IGenericRepository<TimeLine> timeLineRepo, IMapper mapper, BlobServiceClient blobServiceClient,
+            StoreContext dbContext, IGenericRepository<Registration> regRepo)
         {
             _timeLineRepo = timeLineRepo;
             _mapper = mapper;
             _blobServiceClient = blobServiceClient;
             _dbContext = dbContext;
-
+            _regRepo = regRepo;
         }
         // Create a new timeline
 
@@ -196,6 +198,65 @@ namespace HTI_Backend.Controllers
             await _timeLineRepo.DeleteAsync(timeLine);
             return NoContent();
         }
+
+
+        // get all timelines for a student
+
+        [HttpGet("MyCoursesWithTimeLines/{studentId}")]
+        [ProducesResponseType(typeof(StudentCoursesWithTimeLinesDTO), 200)]
+        [ProducesResponseType(typeof(ApiResponse), 404)]
+        public async Task<IActionResult> GetCoursesWithTimeLines(int studentId)
+        {
+            if (!ModelState.IsValid) return BadRequest(new ApiResponse(400));
+
+            var registrations = await _regRepo.FindByCondition(
+                r => r.StudentId == studentId && r.IsOpen,
+                include: q => q
+                    .Include(r => r.Group)
+                    .ThenInclude(g => g.Course)
+                    .Include(r => r.Group.TimeLines)
+                    .ThenInclude(tl => tl.Files)
+            );
+
+            // Filter registrations to include only those with timelines
+            var coursesWithTimeLines = registrations
+                .Where(r => r.Group.TimeLines.Any())
+                .Select(r => new CourseWithTimeLineDTO
+                {
+                    CourseId = r.Group.Course.CourseId,
+                    CourseCode = r.Group.Course.CourseCode,
+                    Name = r.Group.Course.Name,
+                    TimeLines = r.Group.TimeLines.Select(tl => new TimeLineReturnDTO
+                    {
+                        TimeLineId = tl.TimeLineId,
+                        GroupId = tl.GroupId,
+                        Type = tl.Type,
+                        Title = tl.Title,
+                        Description = tl.Description,
+                        Deadline = tl.Deadline,
+                        Files = tl.Files.Select(f => new TimeLineFileDTO
+                        {
+                            Id = f.Id,
+                            OriginalFileName = f.OriginalFileName,
+                            ContentType = f.ContentType,
+                            SasUrl = f.SasUrl
+                        }).ToList()
+                    }).ToList()
+                }).ToList();
+
+            if (!coursesWithTimeLines.Any()) return NotFound(new ApiResponse(404));
+
+            var result = new StudentCoursesWithTimeLinesDTO
+            {
+                StudentId = studentId,
+                Courses = coursesWithTimeLines
+            };
+
+            return Ok(result);
+        }
+
+
+
 
     }
 }

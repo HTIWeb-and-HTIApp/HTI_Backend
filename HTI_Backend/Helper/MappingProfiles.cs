@@ -132,6 +132,9 @@ namespace HTI_Backend.Helper
             CreateMap<TimeLineUpdateDTO, TimeLine>();
             CreateMap<TimeLine, TimeLineReturnDTO>();
             CreateMap<TimeLineFile, TimeLineFileDTO>();
+            // New Mappings for CourseWithTimeLineDTO
+            CreateMap<Course, CourseWithTimeLineDTO>()
+                .ForMember(d => d.TimeLines, o => o.MapFrom(s => s.Groups.SelectMany(g => g.TimeLines)));
         }
 
     }
