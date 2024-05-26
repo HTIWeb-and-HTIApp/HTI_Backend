@@ -13,11 +13,8 @@ namespace HTI.Core.Entities
         public string Type { get; set; }
         public string Title { get; set; }
         public string? Description { get; set; }
-
         public DateTime Deadline { get; set; }
         public List<TimeLineFile>? Files { get; set; } = new();
-
-
         public Group Group { get; set; }
 
     }
