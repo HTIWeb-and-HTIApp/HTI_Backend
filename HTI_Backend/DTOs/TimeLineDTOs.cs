@@ -29,6 +29,7 @@
         public string Type { get; set; }
         public string Title { get; set; }
         public string? Description { get; set; }
+        public DateTime Date { get; set; }
         public DateTime Deadline { get; set; }
         public List<TimeLineFileDTO> Files { get; set; }
 

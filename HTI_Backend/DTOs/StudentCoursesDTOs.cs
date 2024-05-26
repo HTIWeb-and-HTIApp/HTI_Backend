@@ -17,6 +17,7 @@ namespace HTI_Backend.DTOs
     {
         public int StudentId { get; set; }
         public string CourseCode { get; set; }
+        public int GroupId { get; set; }
         public string Name { get; set; }
         public int Credits { get; set; }
         public int GroupNumber { get; set; }

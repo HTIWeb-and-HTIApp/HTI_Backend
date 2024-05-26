@@ -14,11 +14,15 @@ namespace HTI.Core.Entities
         public string CourseCode { get; set; }
         public int WeekNumber { get; set; }
         public bool AttendanceType { get; set; }
+
         public DateTime AttendanceDate { get; set; }
 
         public Student Student { get; set; }
         public Group Group { get; set; }
-        
+        public double Longitude { get; set; }
+        public double Latitude { get; set; }
+
+
     }
 
 }

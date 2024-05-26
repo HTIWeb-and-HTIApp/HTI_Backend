@@ -58,6 +58,7 @@ namespace HTI_Backend.Helper
                                 .ForMember(d => d.DoctorId , O => O.MapFrom(S => S.Group.DoctorId))
                                 .ForMember(d => d.DoctorName, O => O.MapFrom(S => S.Group.Doctor.Name))
                                 .ForMember(d => d.GroupNumber, O => O.MapFrom(S => S.Group.GroupNumber))
+                                .ForMember(d => d.GroupId, O => O.MapFrom(S => S.Group.GroupId))
                                 ;
             CreateMap <Group,GroupStudentsReturnDTO>()
              .ForMember(d => d.CourseCode, o => o.MapFrom(s => s.Course.CourseCode))
@@ -84,6 +85,7 @@ namespace HTI_Backend.Helper
             CreateMap<Course, course>()
             .ForMember(d => d.Name, o => o.MapFrom(s => s.Name))
             .ForMember(d => d.CourseCode, o => o.MapFrom(s => s.CourseCode))
+            .ForMember(d => d.GroupId, o => o.MapFrom(s => s.Groups.Select(s => s.GroupId).FirstOrDefault()))
             .ForMember(d => d.GroupNumber, o => o.MapFrom(s => s.Groups.Select(s => s.GroupNumber).FirstOrDefault()))
             ;
             CreateMap<Doctor, DoctorCoursesReturnDto>()

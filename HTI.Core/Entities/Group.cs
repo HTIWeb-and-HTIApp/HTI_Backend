@@ -21,6 +21,8 @@ namespace HTI.Core.Entities
         public string? SectionTime { get; set; }
         public int MaxStudentNumber { get; set; }
         public bool IsOpen { get; set; }= true;
+        public bool IsQRCodeActive { get; set; } = false;  // New field to track QR code validity
+
         public Course Course { get; set; }
         public Doctor Doctor { get; set; }
         public TeachingAssistant TeachingAssistant { get; set; }

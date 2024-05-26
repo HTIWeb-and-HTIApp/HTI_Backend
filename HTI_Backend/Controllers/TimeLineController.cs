@@ -244,7 +244,6 @@ namespace HTI_Backend.Controllers
                     }).ToList()
                 }).ToList();
 
-            if (!coursesWithTimeLines.Any()) return NotFound(new ApiResponse(404));
 
             var result = new StudentCoursesWithTimeLinesDTO
             {
