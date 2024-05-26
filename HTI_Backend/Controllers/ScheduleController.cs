@@ -6,6 +6,7 @@ using HTI.Core.RepositoriesContract;
 using Microsoft.EntityFrameworkCore;
 using HTI.Core.Entities;
 using AutoMapper;
+using System.Linq;
 
 
 namespace HTI_Backend.Controllers
@@ -55,7 +56,7 @@ public class ScheduleController : ApiBaseController
                     dto.EndTime = slots[TimeToPeriods(g.Group.LectureTime, lecture_duration_periods).Last()];
                 }
                 return dto;
-            }).ToList();
+            }).OrderBy(dto => dto.EndTime).ToList();
 
             return Ok(scheduleDTOs);
         }

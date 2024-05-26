@@ -50,5 +50,17 @@ namespace HTI_Backend.Controllers
 
             return Ok(mappedTACourses);
         }
+
+        [HttpGet("getTa/{email}")]
+        [ProducesResponseType(typeof(taDto), 200)]
+        [ProducesResponseType(typeof(ApiResponse), 404)]
+        public async Task<IActionResult> GetTAByEmail(string email)
+        {
+            var ta = await _tARepo.FindByCondition(S => S.Email == email);
+            var str = ta.FirstOrDefault();
+            if (str is null) return NotFound(new ApiResponse(404));
+            var MappeedDoctor = _mapper.Map<TeachingAssistant, taDto>(str);
+            return Ok(MappeedDoctor);
+        }
     }
 }

@@ -135,6 +135,10 @@ namespace HTI_Backend.Helper
             // New Mappings for CourseWithTimeLineDTO
             CreateMap<Course, CourseWithTimeLineDTO>()
                 .ForMember(d => d.TimeLines, o => o.MapFrom(s => s.Groups.SelectMany(g => g.TimeLines)));
+
+            CreateMap<Doctor, DoctorsDto>();
+            CreateMap<TeachingAssistant, taDto>();
+
         }
 
     }
