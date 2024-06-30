@@ -24,17 +24,21 @@ namespace HTI_Backend.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<StudentsLastTermCoursesDTOs>), 200)]
         [ProducesResponseType(typeof(ApiResponse), 404)]
-        public async Task<IActionResult> GetallStudentsLastTermCourses()
+        public async Task<IActionResult> GetAllStudentsLastTermCourses()
         {
-            var StudentsLastTermCourses = await _courseRepo.FindByCondition(S => S.Student.Credits >= 137 && S.Status == 1, T => T.Include(T => T.Course).Include(T => T.Student));
-            if (StudentsLastTermCourses.Count == 0) return NotFound(new ApiResponse(404));
+            var studentsLastTermCourses = await _courseRepo.FindByCondition(
+                s => s.Student.Credits >= 137 && s.Status == 1,
+                t => t.Include(t => t.Course).Include(t => t.Student)
+            );
 
-            var ReturnStudentsLastTermCourses = _mapper.Map<StudentsLastTermCoursesDTOs>(StudentsLastTermCourses);
+            if (!studentsLastTermCourses.Any())
+                return NotFound(new ApiResponse(404));
 
-             ReturnStudentsLastTermCourses.Studss = _mapper.Map<IEnumerable<student>>(StudentsLastTermCourses.Select(e => e.Student).ToList());
+            var returnStudentsLastTermCourses = _mapper.Map<IEnumerable<StudentsLastTermCoursesDTOs>>(studentsLastTermCourses);
 
-            return Ok(ReturnStudentsLastTermCourses);
-
+            return Ok(returnStudentsLastTermCourses);
         }
+
+
     }
 }

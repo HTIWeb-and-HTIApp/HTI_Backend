@@ -24,6 +24,8 @@
         public int? DoctorId { get; set; }
         public int? TeachingAssistantId { get; set; }
         public string? LectureRoom { get; set; }
+        public string CourseCode { get; set; }
+        public string Name { get; set; }
         public string? SectionRoom { get; set; }
         public string? LectureDay { get; set; }
         public string? SectionDay { get; set; }

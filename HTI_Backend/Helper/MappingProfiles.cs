@@ -19,6 +19,7 @@ namespace HTI_Backend.Helper
             // ana (ahmed) 3malt dooooool
             CreateMap<Group, GroupReturnDTO>();
 
+
             CreateMap<GroupCreateDTO, Group>();
 
             CreateMap<Group, GroupUpdateDTO>();
@@ -66,6 +67,7 @@ namespace HTI_Backend.Helper
             .ForMember(d => d.CourseId, o => o.MapFrom(s => s.Course.CourseId))
             .ForMember(d => d.GroupId, o => o.MapFrom(s => s.GroupId))
             .ForMember(d => d.DoctorName, o => o.MapFrom(s => s.Doctor.Name))
+            .ForMember(d => d.GroupNumber, o => o.MapFrom(s => s.GroupNumber))
             .ForMember(d => d.TeachingAssistantName, o => o.MapFrom(s => s.TeachingAssistant.Name))
         ;
 
@@ -106,9 +108,7 @@ namespace HTI_Backend.Helper
             CreateMap<StudentCourseHistory, ResultReturnDTO>()
                 .ForMember(dest => dest.courses, opt => opt.MapFrom(src => new List<Course> { src.Course }));
 
-            CreateMap<StudentCourseHistory, StudentsLastTermCoursesDTOs>()
-            .ForMember(d => d.CourseCode, o => o.MapFrom(s => s.Course.CourseCode))
-            .ForMember(d => d.CourseName, o => o.MapFrom(s => s.Course.Name));
+
 
 
             CreateMap<Registration, ScheduleReturnDTO>()
@@ -117,8 +117,17 @@ namespace HTI_Backend.Helper
 
              ;
 
+            CreateMap<StudentCourseHistory, StudentsLastTermCoursesDTOs>()
+             .ForMember(d => d.CourseCode, o => o.MapFrom(s => s.Course.CourseCode))
+             .ForMember(d => d.CourseName, o => o.MapFrom(s => s.Course.Name))
+             .ForMember(d => d.Studss, o => o.MapFrom(s => new List<Student> { s.Student }));
 
-
+            CreateMap<Student, StudentDTO>()
+                .ForMember(d => d.StudentId, o => o.MapFrom(s => s.StudentId))
+                .ForMember(d => d.StudentName, o => o.MapFrom(s => s.Name));
+            CreateMap<Course, StudentsLastTermCoursesDTOs>()
+            .ForMember(dest => dest.CourseCode, opt => opt.MapFrom(src => src.CourseCode))
+            .ForMember(dest => dest.CourseName, opt => opt.MapFrom(src => src.Name));
 
             //CreateMap<TimeLine, TimeLineReturnDTO>()
             //.ForMember(d => d.GroupId, O => O.MapFrom(S => S.Group.GroupId))

@@ -5,6 +5,7 @@ using HTI_Backend.DTOs;
 using HTI_Backend.Errors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
 
 namespace HTI_Backend.Controllers
 {
@@ -47,13 +48,14 @@ namespace HTI_Backend.Controllers
             return Ok(groupReturnDTO);
         }
 
+
         // Get all groups
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<GroupReturnDTO>), 200)]
         [ProducesResponseType(typeof(ApiResponse), 404)]
         public async Task<IActionResult> GetAllGroups()
         {
-            var groups = await _groupRepo.FindByCondition(g => true);
+            var groups = await _groupRepo.FindByCondition(g => true );
             if (groups.Count == 0) return NotFound(new ApiResponse(404));
 
             var groupReturnDTOs = _mapper.Map<IEnumerable<Group>, IEnumerable<GroupReturnDTO>>(groups);
@@ -91,6 +93,30 @@ namespace HTI_Backend.Controllers
             var group = groups.First();
             await _groupRepo.DeleteAsync(group);
             return NoContent();
+        }
+
+        // Export groups to Excel
+        [HttpGet("export")]
+        [ProducesResponseType(typeof(FileContentResult), 200)]
+        [ProducesResponseType(typeof(ApiResponse), 404)]
+        public async Task<IActionResult> ExportGroupsToExcel()
+        {
+            var groups = await _groupRepo.FindByCondition(g => g.IsOpen == true);
+            if (groups.Count == 0) return NotFound(new ApiResponse(404));
+
+            var groupReturnDTOs = _mapper.Map<IEnumerable<Group>, IEnumerable<GroupReturnDTO>>(groups);
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Groups");
+                worksheet.Cells.LoadFromCollection(groupReturnDTOs, true);
+
+                var stream = new MemoryStream(package.GetAsByteArray());
+                var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                var fileName = "groups.xlsx";
+
+                return File(stream, contentType, fileName);
+            }
         }
     }
 }

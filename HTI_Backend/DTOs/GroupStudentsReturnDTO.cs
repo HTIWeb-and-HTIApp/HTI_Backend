@@ -9,6 +9,7 @@ namespace HTI_Backend.DTOs
         public int CourseId { get; set; }
         public string CourseCode { get; set; }
         public string CourseName { get; set; }
+        public int GroupNumber { get; set; }
 
         public string DoctorName { get; set; }
         public string TeachingAssistantName { get; set; }

@@ -27,7 +27,7 @@ namespace HTI_Backend.Controllers
         public async Task<IActionResult> StudentOpenReqCourses(int id)
         {
             if (!ModelState.IsValid) return BadRequest(new ApiResponse(400));
-            var regs = await _couRepo.FindByCondition(s => s.StudentId == id &&  s.Status == 1  );
+            var regs = await _couRepo.FindByCondition(s => s.StudentId == id &&  s.Status == 1, S => S.Include(S => S.Group).ThenInclude(S => S.Course));
             var mapped = _mapper.Map<IEnumerable<StudentCourseHistory>, IEnumerable<StudentOpenReqCoursesReturnDTO>>(regs);
             var obj = new StudentOpenReqCoursesDTO()
             {
